@@ -1,7 +1,7 @@
 // ORM
 var oSequelize = require("sequelize");
 
-// SQLLite instance
+// SQLite instance
 var oDB = new oSequelize(undefined, undefined, undefined, {
 	dialect: "sqlite",
 	storage: "./data/database.sqlite"

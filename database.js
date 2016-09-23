@@ -38,6 +38,16 @@ var oRestaurant = oDB.define(
 	{ tableName: "restaurants" }
 );
 
+// Restaurant images
+var oRestaurantImage = oDB.define(
+	"restaurantImage",
+	{
+		restaurantId: { field: "restaurantId", type: oSequelize.INTEGER, primaryKey: false, allowNull: false, defaultValue: 0 },
+		fileName: { field: "fileName", type: oSequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" }
+	},
+	{ tableName: "restaurantImages" }
+);
+
 var oOrder = oDB.define(
 	"order",
 	{
@@ -60,6 +70,7 @@ module.exports = {
 		closedDay: oClosedDay,
 		administrator: oAdministrator,
 		restaurant: oRestaurant,
+		restaurantImage: oRestaurantImage,
 		order: oOrder
 	}
 };

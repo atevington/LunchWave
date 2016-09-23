@@ -81,6 +81,13 @@ oApp.get(
 	oControllers.getOrder
 );
 
+// Last x orders for current user (excluding today) - can use ?limit=x or default to 5
+oApp.get(
+	"/api/orders",
+	fCheckSetAuth,
+	oControllers.getOrders
+);
+
 // Update today's order for current user
 oApp.post(
 	"/api/order",

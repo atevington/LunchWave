@@ -67,7 +67,7 @@ function vGetRestaurants(oReq, oRes, fNext) {
 // Today's order for current user
 function vGetOrder(oReq, oRes, fNext) {
 
-	// Query order for current user and today
+	// Query orders for current user and today
 	oDB.models.order
 		.findOne({
 			where: {
@@ -87,6 +87,26 @@ function vGetOrder(oReq, oRes, fNext) {
 				// Not found, so 404
 				fNext();
 			}
+		});
+}
+
+// Last x orders for current user
+function vGetOrders(oReq, oRes, fNext) {
+	
+	// Query for last x orders for current user
+	oDB.models.order
+		.findAll({
+			where: {
+				userId: oRes.userInfo.id,
+				dateStamp: { $ne: oRes.now.dateStamp.toString() }
+			},
+			limit: parseInt(oReq.query.limit || "5", 10),
+			order: "dateStamp ASC"
+		})
+		.then(function(aOrders) {
+
+			// Return the records
+			oRes.send(aOrders);
 		});
 }
 
@@ -158,5 +178,6 @@ module.exports = {
 	closeDay: vCloseDay,
 	getRestaurants: vGetRestaurants,
 	getOrder: vGetOrder,
+	getOrders: vGetOrders,
 	createUpdateOrder: vCreateUpdateOrder
 };

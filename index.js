@@ -80,9 +80,9 @@ app.get(
 	controllers.getOrder
 );
 
-// Last x orders for current user (excluding today) - can use ?limit=x or default to 5
+// Last x orders for current user and restaurant (excluding today) - can use ?limit=x or default to 5
 app.get(
-	"/api/orders",
+	"/api/orders/:restaurantId",
 	checkSetAuth,
 	controllers.getOrders
 );

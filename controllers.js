@@ -98,6 +98,7 @@ function getOrders(req, res, next) {
 		.findAll({
 			where: {
 				userId: res.userInfo.id,
+				restaurantId: parseInt(req.params.restaurantId || "0", 10),
 				dateStamp: { $ne: res.now.dateStamp.toString() }
 			},
 			limit: parseInt(req.query.limit || "5", 10),

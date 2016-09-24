@@ -115,8 +115,8 @@ function createUpdateOrder(req, res, next) {
 	
 	// See if restaurantId passed in is active today
 	if (
-		res.restaurants.filter(function(oValue) {
-			return oValue.id === parseInt(req.body.restaurantId || "0", 10);
+		res.restaurants.filter(function(val) {
+			return val.id === parseInt(req.body.restaurantId || "0", 10);
 		}).length === 0
 	) {
 		

@@ -32,10 +32,10 @@ function syncDB(req, res, next) {
 }
 
 // Generic method for setting response headers
-function setHeader(header, value, req, res, next) {
+function setHeader(header, val, req, res, next) {
 	
 	// Set header
-	res.set(header, value);
+	res.set(header, val);
 	
 	// Continue to next route
 	next();
@@ -239,7 +239,7 @@ function getRestaurants(req, res, next) {
 }
 
 // Generic method for continuing to next route
-function vContinueRequest(req, res, next) {
+function continueRequest(req, res, next) {
 	
 	// Continue to next route
 	next();
@@ -266,9 +266,9 @@ function checkContinue(valid, errorCode, error, res, next) {
 }
 
 // Method for returning a message object
-function message(cMessage) {
+function message(responseMessage) {
 	return {
-		message: cMessage.trim()
+		message: responseMessage.trim()
 	};
 }
 
@@ -283,6 +283,6 @@ module.exports = {
 	setAdmin: setAdmin,
 	checkAdmin: checkAdmin,
 	checkOrderingClosed: checkOrderingClosed,
-	continueRequest: vContinueRequest,
+	continueRequest: continueRequest,
 	notFound: notFound
 };

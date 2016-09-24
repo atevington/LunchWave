@@ -1,169 +1,169 @@
 // DB and models
-var oDB = require("./database.js");
+var db = require("./database.js");
 
 // Current user
-function vGetUser(oReq, oRes) {
-	oRes.send(oRes.userInfo);
+function getUser(req, res) {
+	res.send(res.userInfo);
 }
 
 // Application info
-function vGetAppInfo(cGoogleClientId, oReq, oRes) {
-	oRes.send({
-		googleClientId: cGoogleClientId
+function getAppInfo(googleClientId, req, res) {
+	res.send({
+		googleClientId: googleClientId
 	});
 }
 
 // See if ordering is closed for the day
-function vGetClosedDay(oReq, oRes, fNext) {
+function getClosedDay(req, res, next) {
 	
 	// See if a closed day record exists for today
-	oDB.models.closedDay
+	db.models.closedDay
 		.findOne({
 			where: {
-				id: oRes.now.dateStamp.toString()
+				id: res.now.dateStamp.toString()
 			}
 		})
-		.then(function(oClosedDay) {
+		.then(function(closedDay) {
 			
 			// Record found
-			if (oClosedDay !== null) {
+			if (closedDay !== null) {
 				
 				// Return the record
-				oRes.send(oClosedDay);
+				res.send(closedDay);
 				
 			// Not found, so 404
 			} else {
 				
 				// Continue to next route
-				fNext();
+				next();
 			}
 		});
 }
 
 // Close ordering for the day
-function vCloseDay(oReq, oRes) {
+function closeDay(req, res) {
 	
 	// See if a closed day record exists for today, create if not
-	oDB.models.closedDay
+	db.models.closedDay
 		.findOrCreate({
 			where: {
-				id: oRes.now.dateStamp.toString()
+				id: res.now.dateStamp.toString()
 			}
 		})
-		.then(function(aClosedDays) {
+		.then(function(closedDays) {
 			
 			// Return the record
-			oRes.send(aClosedDays[0]);
+			res.send(closedDays[0]);
 		});
 }
 
 // All restaurants for current day
-function vGetRestaurants(oReq, oRes, fNext) {
+function getRestaurants(req, res, next) {
 
 	// Return restaurants from response object
-	oRes.send(oRes.restaurants);
+	res.send(res.restaurants);
 }
 
 // Today's order for current user
-function vGetOrder(oReq, oRes, fNext) {
+function getOrder(req, res, next) {
 
 	// Query orders for current user and today
-	oDB.models.order
+	db.models.order
 		.findOne({
 			where: {
-				userId: oRes.userInfo.id,
-				dateStamp: oRes.now.dateStamp.toString()
+				userId: res.userInfo.id,
+				dateStamp: res.now.dateStamp.toString()
 			}		
 		})
-		.then(function(oOrder) {
+		.then(function(order) {
 
 			// Found results
-			if (oOrder !== null) {
+			if (order !== null) {
 			
 				// Return the record
-				oRes.send(oOrder);			
+				res.send(order);			
 			} else {
 				
 				// Not found, so 404
-				fNext();
+				next();
 			}
 		});
 }
 
 // Last x orders for current user
-function vGetOrders(oReq, oRes, fNext) {
+function getOrders(req, res, next) {
 	
 	// Query for last x orders for current user
-	oDB.models.order
+	db.models.order
 		.findAll({
 			where: {
-				userId: oRes.userInfo.id,
-				dateStamp: { $ne: oRes.now.dateStamp.toString() }
+				userId: res.userInfo.id,
+				dateStamp: { $ne: res.now.dateStamp.toString() }
 			},
-			limit: parseInt(oReq.query.limit || "5", 10),
+			limit: parseInt(req.query.limit || "5", 10),
 			order: "dateStamp ASC"
 		})
-		.then(function(aOrders) {
+		.then(function(orders) {
 
 			// Return the records
-			oRes.send(aOrders);
+			res.send(orders);
 		});
 }
 
 // Create and / or update the current user's order for today
-function vCreateUpdateOrder(oReq, oRes, fNext) {
+function createUpdateOrder(req, res, next) {
 	
 	// See if restaurantId passed in is active today
 	if (
-		oRes.restaurants.filter(function(oValue) {
-			return oValue.id === parseInt(oReq.body.restaurantId || "0", 10);
+		res.restaurants.filter(function(oValue) {
+			return oValue.id === parseInt(req.body.restaurantId || "0", 10);
 		}).length === 0
 	) {
 		
 		// It's not, so 404
-		fNext();
+		next();
 	} else {
 
 		// Query order for current user and today, create if it doesn't exist
-		oDB.models.order
+		db.models.order
 			.findOrCreate({
 				where: {
-					userId: oRes.userInfo.id,
-					dateStamp: oRes.now.dateStamp.toString()
+					userId: res.userInfo.id,
+					dateStamp: res.now.dateStamp.toString()
 				}
 			})
 			.then(function() {
 				
 				// Update order again
-				oDB.models.order
+				db.models.order
 					.update(
 						{
-							restaurantId: oReq.body.restaurantId,
-							item: (oReq.body.item || "").trim(),
-							notes: (oReq.body.notes || "").trim(),
-							firstName: oRes.userInfo.firstName,
-							lastName: oRes.userInfo.lastName,
-							email: oRes.userInfo.email,
+							restaurantId: req.body.restaurantId,
+							item: (req.body.item || "").trim(),
+							notes: (req.body.notes || "").trim(),
+							firstName: res.userInfo.firstName,
+							lastName: res.userInfo.lastName,
+							email: res.userInfo.email,
 						},
 						{
 							where: {
-								userId: oRes.userInfo.id,
-								dateStamp: oRes.now.dateStamp.toString()
+								userId: res.userInfo.id,
+								dateStamp: res.now.dateStamp.toString()
 							}
 						}
 					).then(function() {
 						
 						// Query order again
-						oDB.models.order
+						db.models.order
 							.findOne({
 								where: {
-									userId: oRes.userInfo.id,
-									dateStamp: oRes.now.dateStamp.toString()
+									userId: res.userInfo.id,
+									dateStamp: res.now.dateStamp.toString()
 								}		
-							}).then(function(oOrder) {
+							}).then(function(order) {
 								
 								// Return record
-								oRes.send(oOrder);
+								res.send(order);
 							});
 					});
 			});	
@@ -172,12 +172,12 @@ function vCreateUpdateOrder(oReq, oRes, fNext) {
 
 // Expose our functions
 module.exports = {
-	getUser: vGetUser,
-	getAppInfo: vGetAppInfo,
-	getClosedDay: vGetClosedDay,
-	closeDay: vCloseDay,
-	getRestaurants: vGetRestaurants,
-	getOrder: vGetOrder,
-	getOrders: vGetOrders,
-	createUpdateOrder: vCreateUpdateOrder
+	getUser: getUser,
+	getAppInfo: getAppInfo,
+	getClosedDay: getClosedDay,
+	closeDay: closeDay,
+	getRestaurants: getRestaurants,
+	getOrder: getOrder,
+	getOrders: getOrders,
+	createUpdateOrder: createUpdateOrder
 };

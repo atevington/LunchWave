@@ -1,112 +1,112 @@
 // For auth and other stuff
-var oMiddleware = require("./middleware.js");
+var middleware = require("./middleware.js");
 
 // Controllers for routes
-var oControllers = require("./controllers.js");
+var controllers = require("./controllers.js");
 
 // Routing
-var oExpress = require("express");
+var express = require("express");
 
 // Token verification endpoint
-var cGoogleAuthEndpoint = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=";
+var googleAuthEndpoint = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=";
 
 // Google Client Id for LunchWave
-var cGoogleClientId = "81013546075-98q3k6srmd4v83eic0uk299ku1tkn5kl.apps.googleusercontent.com";
+var googleClientId = "81013546075-98q3k6srmd4v83eic0uk299ku1tkn5kl.apps.googleusercontent.com";
 
 // Port the server will run on
-var nPort = parseInt(process.argv[2] || 3001, 10);
+var port = parseInt(process.argv[2] || 3001, 10);
 
 // Get instance of express
-var oApp = oExpress();
+var app = express();
 
 // Invoker
-var oSelf = this;
+var self = this;
 
 // Function for checking / setting auth
-var fCheckSetAuth = oMiddleware.checkSetAuth.bind(oSelf, cGoogleAuthEndpoint, cGoogleClientId);
+var checkSetAuth = middleware.checkSetAuth.bind(self, googleAuthEndpoint, googleClientId);
 
 // Ran for all API requests
-oApp.use(
+app.use(
 	"/api/*",
-	oMiddleware.syncDB,
-	oMiddleware.jsonParse,
-	oMiddleware.setHeader.bind(oSelf, "Cache-Control", "no-cache"),
-	oMiddleware.setHeader.bind(oSelf, "Content-Type", "application/json"),
-	oMiddleware.setDateTime,
-	oMiddleware.continueRequest
+	middleware.syncDB,
+	middleware.jsonParse,
+	middleware.setHeader.bind(self, "Cache-Control", "no-cache"),
+	middleware.setHeader.bind(self, "Content-Type", "application/json"),
+	middleware.setDateTime,
+	middleware.continueRequest
 );
 
 // Application info
-oApp.get(
+app.get(
 	"/api/appInfo",
-	oControllers.getAppInfo.bind(oSelf, cGoogleClientId)
+	controllers.getAppInfo.bind(self, googleClientId)
 );
 
 // Current user info
-oApp.get(
+app.get(
 	"/api/user",
-	fCheckSetAuth,
-	oMiddleware.setAdmin,
-	oControllers.getUser
+	checkSetAuth,
+	middleware.setAdmin,
+	controllers.getUser
 );
 
 // See if current day is closed for ordering
-oApp.get(
+app.get(
 	"/api/closedDay",
-	fCheckSetAuth,
-	oControllers.getClosedDay
+	checkSetAuth,
+	controllers.getClosedDay
 );
 
 // Close current day for ordering
-oApp.post(
+app.post(
 	"/api/closedDay",
-	fCheckSetAuth,
-	oMiddleware.setAdmin,
-	oMiddleware.checkAdmin,
-	oControllers.closeDay
+	checkSetAuth,
+	middleware.setAdmin,
+	middleware.checkAdmin,
+	controllers.closeDay
 );
 
 // All restaurants open for the day
-oApp.get(
+app.get(
 	"/api/restaurants",
-	fCheckSetAuth,
-	oMiddleware.getRestaurants,
-	oControllers.getRestaurants
+	checkSetAuth,
+	middleware.getRestaurants,
+	controllers.getRestaurants
 );
 
 // Today's order for current user
-oApp.get(
+app.get(
 	"/api/order",
-	fCheckSetAuth,
-	oControllers.getOrder
+	checkSetAuth,
+	controllers.getOrder
 );
 
 // Last x orders for current user (excluding today) - can use ?limit=x or default to 5
-oApp.get(
+app.get(
 	"/api/orders",
-	fCheckSetAuth,
-	oControllers.getOrders
+	checkSetAuth,
+	controllers.getOrders
 );
 
 // Update today's order for current user
-oApp.post(
+app.post(
 	"/api/order",
-	fCheckSetAuth,
-	oMiddleware.checkOrderingClosed,
-	oMiddleware.getRestaurants,
-	oControllers.createUpdateOrder
+	checkSetAuth,
+	middleware.checkOrderingClosed,
+	middleware.getRestaurants,
+	controllers.createUpdateOrder
 );
 
 // 404 for API requests - must be last api route defined
-oApp.use(
+app.use(
 	"/api/*",
-	oMiddleware.notFound
+	middleware.notFound
 );
 
 // Static files / UI
-oApp.use(oExpress.static("public"));
+app.use(express.static("public"));
 
 // Start the server
-oApp.listen(nPort, function() {
-	console.log("Listening on port " + nPort.toString() + "...");
+app.listen(port, function() {
+	console.log("Listening on port " + port.toString() + "...");
 });

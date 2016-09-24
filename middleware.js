@@ -1,57 +1,57 @@
 // DB and models
-var oDB = require("./database.js");
+var db = require("./database.js");
 
 // HTTP / HTTPS library
-var oHTTP = require("request");
+var http = require("request");
 
 // For JSON parsing
-var oParser = require("body-parser")
+var parser = require("body-parser")
 
 // Status code lookup
-var oStatusCodes = { ok: 200, notAuthorized: 401, forbidden: 403, notFound: 404, error: 500 };
+var statusCodes = { ok: 200, notAuthorized: 401, forbidden: 403, notFound: 404, error: 500 };
 
 // Parse request body into JSON
-function vJSONParse() {
+function jsonParse() {
 	
 	// Invoker
-	var oSelf = this;
+	var self = this;
 	
 	// Forward to JSON parser
-	oParser.json().apply(oSelf, arguments);
+	parser.json().apply(self, arguments);
 }
 
 // Get DB up to date
-function vSyncDB(oReq, oRes, fNext) {
+function syncDB(req, res, next) {
 	
 	// Sync all tables
-	oDB.store.sync().then(function() {
+	db.store.sync().then(function() {
 		
 		// Continue to next route
-		fNext();
+		next();
 	});
 }
 
 // Generic method for setting response headers
-function vSetHeader(cHeader, cValue, oReq, oRes, fNext) {
+function setHeader(header, value, req, res, next) {
 	
 	// Set header
-	oRes.set(cHeader, cValue);
+	res.set(header, value);
 	
 	// Continue to next route
-	fNext();
+	next();
 }
 
 // Tag request with current date / time / weekday
-function vSetDateTime(oReq, oRes, fNext) {
+function setDateTime(req, res, next) {
 	
 	// Current date / time
-	var oNow = new Date();
+	var now = new Date();
 	
 	// Current date / no time
-	var oDateStamp = new Date(oNow.getFullYear(), oNow.getMonth(), oNow.getDate());
+	var dateStamp = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 	
 	// All weekdays (for querying)
-	var aWeekDays = [
+	var weekDays = [
 		"sunday",
 		"monday",
 		"tuesday",
@@ -62,211 +62,211 @@ function vSetDateTime(oReq, oRes, fNext) {
 	];
 
 	// Set date / time / weekday context for subsequent routes
-	oRes.now = {
-		timeStamp: oNow.getTime(),
-		dateStamp: oDateStamp.getTime(),
-		weekDay: aWeekDays[oDateStamp.getDay()]
+	res.now = {
+		timeStamp: now.getTime(),
+		dateStamp: dateStamp.getTime(),
+		weekDay: weekDays[dateStamp.getDay()]
 	};
 	
 	// Continue to next route
-	fNext();
+	next();
 }
 
 // Verify Google sign-in
-function vCheckSetAuth(cGoogleAuthEndpoint, cGoogleClientId, oReq, oRes, fNext) {
+function checkSetAuth(googleAuthEndpoint, googleClientId, req, res, next) {
 
 	// Invoker
-	var oSelf = this;
+	var self = this;
 	
 	// Initially false
-	var lValid = false;
+	var valid = false;
 	
 	// User object to attach to request
-	var oUser = null;
+	var user = null;
 	
 	// Token passed from header
-	var cToken = (oReq.get("X-Google-Token") || "").trim();
+	var token = (req.get("X-Google-Token") || "").trim();
 	
 	// HTTPS request to Google endpoint with token
-	oHTTP(cGoogleAuthEndpoint + encodeURIComponent(cToken), function (oError, oResponse, oBody) {
+	http(googleAuthEndpoint + encodeURIComponent(token), function (error, response, body) {
 		
 		// OK response
-		if (!oError && oResponse.statusCode === oStatusCodes.ok) {
-			oUser = JSON.parse(oBody);
+		if (!error && response.statusCode === statusCodes.ok) {
+			user = JSON.parse(body);
 			
 			// Token must have been issued for LunchWave and not another app
-			if (oUser.aud === cGoogleClientId) {
+			if (user.aud === googleClientId) {
 				
 				// We're good
-				lValid = true;
+				valid = true;
 				
 				// Set user context for subsequent routes
-				oRes.userInfo = {
-					id: oUser.sub,
-					firstName: oUser.given_name,
-					lastName: oUser.family_name,
-					email: oUser.email,
+				res.userInfo = {
+					id: user.sub,
+					firstName: user.given_name,
+					lastName: user.family_name,
+					email: user.email,
 					administrator: false
 				};
 			}
 		}
 
 		// Callback, continue to next route
-		vCheckContinue.apply(
-			oSelf,
+		checkContinue.apply(
+			self,
 			[
-				lValid,
-				oStatusCodes.notAuthorized,
-				oMessage("Please login to access this resource."),
-				oRes,
-				fNext
+				valid,
+				statusCodes.notAuthorized,
+				message("Please login to access this resource."),
+				res,
+				next
 			]
 		);
 	});
 }
 
 // Flag current user as admin or not
-function vSetAdmin(oReq, oRes, fNext) {
+function setAdmin(req, res, next) {
 	
 	// Search for an administrator record for the current user id
-	oDB.models.administrator
+	db.models.administrator
 		.findOne({
 			where: {
-				id: oRes.userInfo.id
+				id: res.userInfo.id
 			}
 		})
-		.then(function(oAdministrator) {
+		.then(function(administrator) {
 
 			// Record found
-			if (oAdministrator !== null) {
+			if (administrator !== null) {
 				
 				// Flag user as admin
-				oRes.userInfo.administrator = true;
+				res.userInfo.administrator = true;
 			}
 			
 			// Continue to next route
-			fNext();
+			next();
 		});
 }
 
 // See if the current user is an administrator
-function vCheckAdmin(oReq, oRes, fNext) {
+function checkAdmin(req, res, next) {
 	
 	// Invoker
-	var oSelf = this;
+	var self = this;
 	
 	// Initially false
-	var lValid = false;
+	var valid = false;
 
 	// Administrator?
-	if (oRes.userInfo && oRes.userInfo.administrator) {
+	if (res.userInfo && res.userInfo.administrator) {
 		
 		// We're good
-		lValid = true;
+		valid = true;
 	}
 	
 	// Callback, continue to next route
-	vCheckContinue.apply(
-		oSelf,
+	checkContinue.apply(
+		self,
 		[
-			lValid,
-			oStatusCodes.forbidden,
-			oMessage("You must be an administrator to access this resource."),
-			oRes,
-			fNext
+			valid,
+			statusCodes.forbidden,
+			message("You must be an administrator to access this resource."),
+			res,
+			next
 		]
 	);
 }
 
 // See if ordering is closed for the day
-function vCheckOrderingClosed(oReq, oRes, fNext) {
+function checkOrderingClosed(req, res, next) {
 	
 	// Invoker
-	var oSelf = this;
+	var self = this;
 	
 	// Initially false
-	var lValid = false;
+	var valid = false;
 
 	// Query for closed day based off request date / time
-	oDB.models.closedDay
+	db.models.closedDay
 		.findOne({
 			where: {
-				id: oRes.now.dateStamp.toString()
+				id: res.now.dateStamp.toString()
 			}
 		})
-		.then(function(oClosedDay) {
+		.then(function(closedDay) {
 
 			// No day found
-			if (oClosedDay === null) {
+			if (closedDay === null) {
 				
 				// We're good
-				lValid = true;
+				valid = true;
 			}
 			
 			// Callback, continue to next route
-			vCheckContinue.apply(
-				oSelf,
+			checkContinue.apply(
+				self,
 				[
-					lValid,
-					oStatusCodes.forbidden,
-					oMessage("Sorry, ordering is closed for today."),
-					oRes,
-					fNext
+					valid,
+					statusCodes.forbidden,
+					message("Sorry, ordering is closed for today."),
+					res,
+					next
 				]
 			);
 		});
 }
 
 // All restaurants for current day
-function vGetRestaurants(oReq, oRes, fNext) {
+function getRestaurants(req, res, next) {
 
 	// Set up object to query for weekday
-	var oQuery = {};
-	oQuery[oRes.now.weekDay] = true;
-	oQuery.active = true;
+	var query = {};
+	query[res.now.weekDay] = true;
+	query.active = true;
 
 	// Query active restaurants for current day
-	oDB.models.restaurant
-		.findAll({ where: oQuery, order: "name ASC" })
-		.then(function(aRestaurants) {
+	db.models.restaurant
+		.findAll({ where: query, order: "name ASC" })
+		.then(function(restaurants) {
 
 			// Set open restaurants for subsequent requests
-			oRes.restaurants = aRestaurants;
+			res.restaurants = restaurants;
 			
 			// Continue to next route
-			fNext();
+			next();
 		});
 }
 
 // Generic method for continuing to next route
-function vContinueRequest(oReq, oRes, fNext) {
+function vContinueRequest(req, res, next) {
 	
 	// Continue to next route
-	fNext();
+	next();
 }
 
 // 404 handler
-function vNotFound(oReq, oRes) {
+function notFound(req, res) {
 	
 	// Route isn't found, so send a 404 with a nice message
-	oRes.status(oStatusCodes.notFound).send(oMessage("The resource you requested cannot be found."));
+	res.status(statusCodes.notFound).send(message("The resource you requested cannot be found."));
 }
 
 // Method for continuing to next route or throwing an error
-function vCheckContinue(lValid, nErrorCode, oError, oRes, fNext) {
+function checkContinue(valid, errorCode, error, res, next) {
 	
 	// If valid, continue to next route
-	if (lValid) {
-		fNext();
+	if (valid) {
+		next();
 		
 	// Otherwise, send the appropriate error code and message
 	} else {
-		oRes.status(nErrorCode).send(oError);
+		res.status(errorCode).send(error);
 	}
 }
 
 // Method for returning a message object
-function oMessage(cMessage) {
+function message(cMessage) {
 	return {
 		message: cMessage.trim()
 	};
@@ -274,15 +274,15 @@ function oMessage(cMessage) {
 
 // Expose our functions
 module.exports = {
-	jsonParse: vJSONParse,
-	syncDB: vSyncDB,
-	setHeader: vSetHeader,
-	setDateTime: vSetDateTime,
-	checkSetAuth: vCheckSetAuth,
-	getRestaurants: vGetRestaurants,
-	setAdmin: vSetAdmin,
-	checkAdmin: vCheckAdmin,
-	checkOrderingClosed: vCheckOrderingClosed,
+	jsonParse: jsonParse,
+	syncDB: syncDB,
+	setHeader: setHeader,
+	setDateTime: setDateTime,
+	checkSetAuth: checkSetAuth,
+	getRestaurants: getRestaurants,
+	setAdmin: setAdmin,
+	checkAdmin: checkAdmin,
+	checkOrderingClosed: checkOrderingClosed,
 	continueRequest: vContinueRequest,
-	notFound: vNotFound
+	notFound: notFound
 };

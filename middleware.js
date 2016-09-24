@@ -5,7 +5,7 @@ var db = require("./database.js");
 var http = require("request");
 
 // For JSON parsing
-var parser = require("body-parser")
+var parser = require("body-parser");
 
 // Status code lookup
 var statusCodes = { ok: 200, notAuthorized: 401, forbidden: 403, notFound: 404, error: 500 };

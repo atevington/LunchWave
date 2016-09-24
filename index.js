@@ -75,21 +75,21 @@ app.get(
 
 // Today's order for current user
 app.get(
-	"/api/order",
+	"/api/userOrder",
 	checkSetAuth,
 	controllers.getOrder
 );
 
 // Last x orders for current user and restaurant (excluding today) - can use ?limit=x or default to 5
 app.get(
-	"/api/orders/:restaurantId",
+	"/api/userOrders/:restaurantId",
 	checkSetAuth,
 	controllers.getOrders
 );
 
 // Update today's order for current user
 app.post(
-	"/api/order",
+	"/api/userOrder",
 	checkSetAuth,
 	middleware.checkOrderingClosed,
 	middleware.setRestaurants,

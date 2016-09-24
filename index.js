@@ -32,8 +32,7 @@ app.use(
 	middleware.jsonParse,
 	middleware.setHeader.bind(self, "Cache-Control", "no-cache"),
 	middleware.setHeader.bind(self, "Content-Type", "application/json"),
-	middleware.setDateTime,
-	middleware.continueRequest
+	middleware.setDateTime
 );
 
 // Application info

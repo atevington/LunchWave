@@ -238,13 +238,6 @@ function setRestaurants(req, res, next) {
 		});
 }
 
-// Generic method for continuing to next route
-function continueRequest(req, res, next) {
-	
-	// Continue to next route
-	next();
-}
-
 // 404 handler
 function notFound(req, res) {
 	
@@ -283,6 +276,5 @@ module.exports = {
 	setAdmin: setAdmin,
 	checkAdmin: checkAdmin,
 	checkOrderingClosed: checkOrderingClosed,
-	continueRequest: continueRequest,
 	notFound: notFound
 };

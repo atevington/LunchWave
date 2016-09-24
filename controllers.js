@@ -101,12 +101,12 @@ function getOrders(req, res, next) {
 				dateStamp: { $ne: res.now.dateStamp.toString() }
 			},
 			limit: parseInt(req.query.limit || "5", 10),
-			order: "dateStamp ASC"
+			order: "dateStamp DESC" // most recent orders
 		})
 		.then(function(orders) {
 
-			// Return the records
-			res.send(orders);
+			// Return the records - reverse order so it's essentially bottom X records
+			res.send(orders.reverse());
 		});
 }
 

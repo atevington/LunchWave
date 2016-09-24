@@ -14,7 +14,7 @@ var googleAuthEndpoint = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_toke
 var googleClientId = "81013546075-98q3k6srmd4v83eic0uk299ku1tkn5kl.apps.googleusercontent.com";
 
 // Port the server will run on
-var port = parseInt(process.argv[2] || 3001, 10);
+var port = process.env.PORT || 3001;
 
 // Get instance of express
 var app = express();
@@ -107,5 +107,5 @@ app.use(express.static("public"));
 
 // Start the server
 app.listen(port, function() {
-	console.log("Listening on port " + port.toString() + "...");
+	console.log("Listening on port " + port + "...");
 });

@@ -218,7 +218,7 @@ function checkOrderingClosed(req, res, next) {
 }
 
 // All restaurants for current day
-function getRestaurants(req, res, next) {
+function setRestaurants(req, res, next) {
 
 	// Set up object to query for weekday
 	var query = {};
@@ -279,7 +279,7 @@ module.exports = {
 	setHeader: setHeader,
 	setDateTime: setDateTime,
 	checkSetAuth: checkSetAuth,
-	getRestaurants: getRestaurants,
+	setRestaurants: setRestaurants,
 	setAdmin: setAdmin,
 	checkAdmin: checkAdmin,
 	checkOrderingClosed: checkOrderingClosed,

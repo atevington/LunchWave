@@ -70,7 +70,7 @@ app.post(
 app.get(
 	"/api/restaurants",
 	checkSetAuth,
-	middleware.getRestaurants,
+	middleware.setRestaurants,
 	controllers.getRestaurants
 );
 
@@ -93,7 +93,7 @@ app.post(
 	"/api/order",
 	checkSetAuth,
 	middleware.checkOrderingClosed,
-	middleware.getRestaurants,
+	middleware.setRestaurants,
 	controllers.createUpdateOrder
 );
 

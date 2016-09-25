@@ -49,6 +49,37 @@ app.get(
 	controllers.getUser
 );
 
+// Today's order for current user
+app.get(
+	"/api/user/order",
+	checkSetAuth,
+	controllers.getOrder
+);
+
+// Last x orders for current user and restaurant (excluding today) - can use ?limit=x or default to 5
+app.get(
+	"/api/user/orders/:restaurantId",
+	checkSetAuth,
+	controllers.getOrders
+);
+
+// Update today's order for current user
+app.post(
+	"/api/user/order",
+	checkSetAuth,
+	middleware.checkOrderingClosed,
+	middleware.setRestaurants,
+	controllers.createUpdateOrder
+);
+
+// Delete today's order for current user
+app.delete(
+	"/api/user/order",
+	checkSetAuth,
+	middleware.checkOrderingClosed,
+	controllers.deleteOrder
+);
+
 // See if current day is closed for ordering
 app.get(
 	"/api/closedDay",
@@ -71,29 +102,6 @@ app.get(
 	checkSetAuth,
 	middleware.setRestaurants,
 	controllers.getRestaurants
-);
-
-// Today's order for current user
-app.get(
-	"/api/userOrder",
-	checkSetAuth,
-	controllers.getOrder
-);
-
-// Last x orders for current user and restaurant (excluding today) - can use ?limit=x or default to 5
-app.get(
-	"/api/userOrders/:restaurantId",
-	checkSetAuth,
-	controllers.getOrders
-);
-
-// Update today's order for current user
-app.post(
-	"/api/userOrder",
-	checkSetAuth,
-	middleware.checkOrderingClosed,
-	middleware.setRestaurants,
-	controllers.createUpdateOrder
 );
 
 // 404 for API requests - must be last api route defined

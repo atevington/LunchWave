@@ -171,6 +171,41 @@ function createUpdateOrder(req, res, next) {
 	}
 }
 
+// Delete the current user's order for today
+function deleteOrder(req, res, next) {
+						
+	// Query order
+	db.models.order
+		.findOne({
+			where: {
+				userId: res.userInfo.id,
+				dateStamp: res.now.dateStamp.toString()
+			}		
+		}).then(function(order) {
+			
+			if (order !== null) {
+				
+				// Found record, delete it
+				db.models.order
+					.destroy({
+						where: {
+							userId: res.userInfo.id,
+							dateStamp: res.now.dateStamp.toString()
+						}		
+					}).then(function() {
+						
+						// End response, no body
+						res.send();
+					});
+				
+			} else {
+			
+				// Not found, so 404
+				next();
+			}
+	});
+}
+
 // Expose our functions
 module.exports = {
 	getUser: getUser,
@@ -180,5 +215,6 @@ module.exports = {
 	getRestaurants: getRestaurants,
 	getOrder: getOrder,
 	getOrders: getOrders,
-	createUpdateOrder: createUpdateOrder
+	createUpdateOrder: createUpdateOrder,
+	deleteOrder: deleteOrder
 };

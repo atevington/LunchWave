@@ -65,7 +65,7 @@ function createUpdateOrder(req, res, next) {
 			common.db.models.order
 				.update(
 					{
-						restaurantId: req.body.restaurantId,
+						restaurantId: parseInt(req.params.restaurantId || "0", 10),
 						item: (req.body.item || "").trim(),
 						notes: (req.body.notes || "").trim(),
 						firstName: res.userInfo.firstName,
@@ -105,7 +105,7 @@ function createGuestOrder(req, res, next) {
 			{
 				userId: null,
 				dateStamp: res.now.dateStamp.toString(),
-				restaurantId: req.body.restaurantId,
+				restaurantId: parseInt(req.params.restaurantId || "0", 10),
 				item: (req.body.item || "").trim(),
 				notes: (req.body.notes || "").trim(),
 				firstName: (req.body.firstName || "").trim(),

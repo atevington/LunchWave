@@ -45,7 +45,7 @@ function closeDay(req, res) {
 		});
 }
 
-// Delete the current user's order for today
+// Re-open day for ordering
 function openDay(req, res, next) {
 						
 	// See if a closed day record exists for today

@@ -1,5 +1,5 @@
-// DB and models
-var db = require("./database.js");
+// Common includes
+var common = require("./common.controllers.js");
 
 // Current user
 function getUser(req, res) {

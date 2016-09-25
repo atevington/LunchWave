@@ -1,5 +1,5 @@
-// DB and models
-var db = require("./database.js");
+// Common includes
+var common = require("./common.controllers.js");
 
 // Application info
 function getAppInfo(googleClientId, req, res) {
@@ -9,6 +9,6 @@ function getAppInfo(googleClientId, req, res) {
 }
 
 // Expose our functions
-module.exports{
+module.exports = {
 	getAppInfo: getAppInfo
 };

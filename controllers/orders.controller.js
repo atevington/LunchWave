@@ -1,56 +1,11 @@
-// DB and models
-var db = require("./database.js");
-
-
-// See if ordering is closed for the day
-function getClosedDay(req, res, next) {
-	
-	// See if a closed day record exists for today
-	db.models.closedDay
-		.findOne({
-			where: {
-				id: res.now.dateStamp.toString()
-			}
-		})
-		.then(function(closedDay) {
-			
-			// Record found
-			if (closedDay !== null) {
-				
-				// Return the record
-				res.send(closedDay);
-				
-			// Not found, so 404
-			} else {
-				
-				// Continue to next route
-				next();
-			}
-		});
-}
-
-// Close ordering for the day
-function closeDay(req, res) {
-	
-	// See if a closed day record exists for today, create if not
-	db.models.closedDay
-		.findOrCreate({
-			where: {
-				id: res.now.dateStamp.toString()
-			}
-		})
-		.then(function(closedDays) {
-			
-			// Return the record
-			res.send(closedDays[0]);
-		});
-}
+// Common includes
+var common = require("./common.controllers.js");
 
 // Today's order for current user
 function getOrder(req, res, next) {
 
 	// Query orders for current user and today
-	db.models.order
+	common.db.models.order
 		.findOne({
 			where: {
 				userId: res.userInfo.id,
@@ -76,7 +31,7 @@ function getOrder(req, res, next) {
 function getOrders(req, res, next) {
 	
 	// Query for last x orders for current user
-	db.models.order
+	common.db.models.order
 		.findAll({
 			where: {
 				userId: res.userInfo.id,
@@ -108,7 +63,7 @@ function createUpdateOrder(req, res, next) {
 	} else {
 
 		// Query order for current user and today, create if it doesn't exist
-		db.models.order
+		common.db.models.order
 			.findOrCreate({
 				where: {
 					userId: res.userInfo.id,
@@ -118,7 +73,7 @@ function createUpdateOrder(req, res, next) {
 			.then(function() {
 				
 				// Update order again
-				db.models.order
+				common.db.models.order
 					.update(
 						{
 							restaurantId: req.body.restaurantId,
@@ -137,7 +92,7 @@ function createUpdateOrder(req, res, next) {
 					).then(function() {
 						
 						// Query order again
-						db.models.order
+						common.db.models.order
 							.findOne({
 								where: {
 									userId: res.userInfo.id,
@@ -157,7 +112,7 @@ function createUpdateOrder(req, res, next) {
 function deleteOrder(req, res, next) {
 						
 	// Query order
-	db.models.order
+	common.db.models.order
 		.findOne({
 			where: {
 				userId: res.userInfo.id,
@@ -168,7 +123,7 @@ function deleteOrder(req, res, next) {
 			if (order !== null) {
 				
 				// Found record, delete it
-				db.models.order
+				common.db.models.order
 					.destroy({
 						where: {
 							userId: res.userInfo.id,
@@ -188,10 +143,8 @@ function deleteOrder(req, res, next) {
 	});
 }
 
+// Expose our functions
 module.exports = {
-	getClosedDay: getClosedDay,
-	closeDay: closeDay,
-	getRestaurants: getRestaurants,
 	getOrder: getOrder,
 	getOrders: getOrders,
 	createUpdateOrder: createUpdateOrder,

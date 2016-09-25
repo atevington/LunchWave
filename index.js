@@ -2,10 +2,7 @@
 var middleware = require("./middleware.js");
 
 // Controllers for routes
-var cntrlOrders = require("./controllers/orders.controller.js");
-var cntrlUsers = require("./controllers/users.controller.js");
-var cntrlRestaurants = require("./controllers/restaurants.controller.js");
-var cntrlApp = require("./controllers/app.controller.js");
+var controllers = require("./controllers.js");
 
 // Routing
 var express = require("express");
@@ -41,7 +38,7 @@ app.use(
 // Application info
 app.get(
 	"/api/appInfo",
-	cntrlApp.getAppInfo.bind(self, googleClientId)
+	controllers.getAppInfo.bind(self, googleClientId)
 );
 
 // Current user info
@@ -49,21 +46,21 @@ app.get(
 	"/api/user",
 	checkSetAuth,
 	middleware.setAdmin,
-	cntrlUsers.getUser
+	controllers.getUser
 );
 
 // Today's order for current user
 app.get(
 	"/api/user/order",
 	checkSetAuth,
-	cntrlOrders.getOrder
+	controllers.getOrder
 );
 
 // Last x orders for current user and restaurant (excluding today) - can use ?limit=x or default to 5
 app.get(
 	"/api/user/orders/:restaurantId",
 	checkSetAuth,
-	cntrlOrders.getOrders
+	controllers.getOrders
 );
 
 // Update today's order for current user
@@ -72,7 +69,7 @@ app.post(
 	checkSetAuth,
 	middleware.checkOrderingClosed,
 	middleware.setRestaurants,
-	cntrlOrders.createUpdateOrder
+	controllers.createUpdateOrder
 );
 
 // Delete today's order for current user
@@ -80,14 +77,14 @@ app.delete(
 	"/api/user/order",
 	checkSetAuth,
 	middleware.checkOrderingClosed,
-	cntrlOrders.deleteOrder
+	controllers.deleteOrder
 );
 
 // See if current day is closed for ordering
 app.get(
 	"/api/closedDay",
 	checkSetAuth,
-	cntrlOrders.getClosedDay
+	controllers.getClosedDay
 );
 
 // Close current day for ordering
@@ -96,7 +93,7 @@ app.post(
 	checkSetAuth,
 	middleware.setAdmin,
 	middleware.checkAdmin,
-	cntrlOrders.closeDay
+	controllers.closeDay
 );
 
 // All restaurants open for the day
@@ -104,7 +101,7 @@ app.get(
 	"/api/restaurants",
 	checkSetAuth,
 	middleware.setRestaurants,
-	cntrlRestaurants.getRestaurants
+	controllers.getRestaurants
 );
 
 // 404 for API requests - must be last api route defined

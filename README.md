@@ -27,7 +27,7 @@ npm install
 
 npm run build
 
-# see the built application
-ls dist
+# see the built application in the public directory
+ls public
 ```
 

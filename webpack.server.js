@@ -5,6 +5,7 @@ var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 
 new WebpackDevServer(webpack(config), {
+  contentBase: './client/public',
   stats: 'normal',
   publicPath: config.output.publicPath,
   hot: true,

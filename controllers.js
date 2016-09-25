@@ -7,7 +7,7 @@ module.exports = {
 	openDay: require("./controllers/closeddays.controller.js").openDay,
 	getRestaurants: require("./controllers/restaurants.controller.js").getRestaurants,
 	getOrder: require("./controllers/orders.controller.js").getOrder,
-	getOrders: require("./controllers/orders.controller.js").getOrders,
+	getPastOrders: require("./controllers/orders.controller.js").getPastOrders,
 	createUpdateOrder: require("./controllers/orders.controller.js").createUpdateOrder,
 	createGuestOrder: require("./controllers/orders.controller.js").createGuestOrder,
 	deleteOrder: require("./controllers/orders.controller.js").deleteOrder

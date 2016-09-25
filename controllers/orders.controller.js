@@ -28,7 +28,7 @@ function getOrder(req, res, next) {
 }
 
 // Last x orders for current user
-function getOrders(req, res, next) {
+function getPastOrders(req, res, next) {
 	
 	// Query for last x orders for current user
 	common.db.models.order
@@ -157,7 +157,7 @@ function deleteOrder(req, res, next) {
 // Expose our functions
 module.exports = {
 	getOrder: getOrder,
-	getOrders: getOrders,
+	getPastOrders: getPastOrders,
 	createUpdateOrder: createUpdateOrder,
 	createGuestOrder: createGuestOrder,
 	deleteOrder: deleteOrder

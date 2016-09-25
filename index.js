@@ -56,13 +56,6 @@ app.get(
 	controllers.getOrder
 );
 
-// Last x orders for current user and restaurant (excluding today) - can use ?limit=x or default to 5
-app.get(
-	"/api/user/orders/:restaurantId",
-	checkSetAuth,
-	controllers.getOrders
-);
-
 // Create / update today's order for current user
 app.post(
 	"/api/user/order",
@@ -79,6 +72,13 @@ app.delete(
 	checkSetAuth,
 	middleware.checkOrderingClosed,
 	controllers.deleteOrder
+);
+
+// Last x orders for current user and restaurant (excluding today) - can use ?limit=x or default to 5
+app.get(
+	"/api/user/pastOrders/:restaurantId",
+	checkSetAuth,
+	controllers.getPastOrders
 );
 
 // Insert guest order

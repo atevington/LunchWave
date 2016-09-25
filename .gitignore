@@ -1,5 +1,5 @@
 node_modules/
 data/*.sqlite
 .DS_Store
-dist/
+public/
 npm-debug.log

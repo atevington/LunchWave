@@ -25,7 +25,7 @@ module.exports = function makeConfig() {
   config.entry = entries;
 
   config.output = {
-    path: __dirname + '/dist',
+    path: __dirname + '/public',
     publicPath: isProd ? '/' : 'http://localhost:3000/',
     filename: isProd ? '[name].[hash].js' : '[name].bundle.js',
     chunkFilename: isProd ? '[name].[hash].js' : '[name].bundle.js'
@@ -77,11 +77,6 @@ module.exports = function makeConfig() {
       test: /\.html$/,
       loader: 'raw'
     }]
-  };
-
-  config.devServer = {
-    contentBase: './client/public',
-    stats: 'minimal'
   };
 
   return config;

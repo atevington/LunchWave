@@ -1,17 +1,6 @@
 // DB and models
 var db = require("./database.js");
 
-// Current user
-function getUser(req, res) {
-	res.send(res.userInfo);
-}
-
-// Application info
-function getAppInfo(googleClientId, req, res) {
-	res.send({
-		googleClientId: googleClientId
-	});
-}
 
 // See if ordering is closed for the day
 function getClosedDay(req, res, next) {
@@ -55,13 +44,6 @@ function closeDay(req, res) {
 			// Return the record
 			res.send(closedDays[0]);
 		});
-}
-
-// All restaurants for current day
-function getRestaurants(req, res, next) {
-
-	// Return restaurants from response object
-	res.send(res.restaurants);
 }
 
 // Today's order for current user
@@ -206,10 +188,7 @@ function deleteOrder(req, res, next) {
 	});
 }
 
-// Expose our functions
 module.exports = {
-	getUser: getUser,
-	getAppInfo: getAppInfo,
 	getClosedDay: getClosedDay,
 	closeDay: closeDay,
 	getRestaurants: getRestaurants,

@@ -1,5 +1,5 @@
 // Common includes
-var common = require("./common.models.js");
+var common = require("./common.model.js");
 
 // Closed days for ordering
 var closedDay = common.db.define(

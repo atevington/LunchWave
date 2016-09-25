@@ -1,5 +1,5 @@
 // Common includes
-var common = require("./common.models.js");
+var common = require("./common.model.js");
 
 // Lunch administrators
 var administrator = common.db.define(

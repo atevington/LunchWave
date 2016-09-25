@@ -1,5 +1,5 @@
 // Common includes
-var common = require("./common.models.js");
+var common = require("./common.model.js");
 
 // Restaurants
 var restaurant = common.db.define(

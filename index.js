@@ -84,6 +84,9 @@ app.delete(
 // Insert guest order
 app.post(
 	"/api/guest/order",
+	checkSetAuth,
+	middleware.setAdmin,
+	middleware.checkAdmin,
 	middleware.checkOrderingClosed,
 	middleware.setRestaurants,
 	middleware.checkRestaurantActive,

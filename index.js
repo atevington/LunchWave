@@ -96,6 +96,7 @@ app.post(
 // See if current day is closed for ordering
 app.get(
 	"/api/closedDay",
+	checkSetAuth,
 	controllers.getClosedDay
 );
 
@@ -120,6 +121,7 @@ app.delete(
 // All restaurants open for the day
 app.get(
 	"/api/restaurants",
+	checkSetAuth,
 	middleware.setRestaurants,
 	controllers.getRestaurants
 );

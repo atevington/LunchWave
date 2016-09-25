@@ -18,7 +18,7 @@ npm install
 npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3001) in your browser.
+Open [http://localhost:3001](http://localhost:3001) in your browser.
 
 ### Build the Client Application
 

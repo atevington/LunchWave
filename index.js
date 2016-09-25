@@ -115,5 +115,5 @@ app.use(express.static("public"));
 
 // Start the server
 app.listen(port, function() {
-	console.log("Listening on port " + port + "...");
+  console.log("[server] Express listening http://localhost:" + port + "/");
 });

@@ -9,5 +9,6 @@ module.exports = {
 	getOrder: require("./controllers/orders.controller.js").getOrder,
 	getOrders: require("./controllers/orders.controller.js").getOrders,
 	createUpdateOrder: require("./controllers/orders.controller.js").createUpdateOrder,
+	createGuestOrder: require("./controllers/orders.controller.js").createGuestOrder,
 	deleteOrder: require("./controllers/orders.controller.js").deleteOrder
 };

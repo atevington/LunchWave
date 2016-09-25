@@ -96,6 +96,29 @@ function createUpdateOrder(req, res, next) {
 		});
 }
 
+// Insert a guest order
+function createGuestOrder(req, res, next) {
+
+	// Insert guest order, pulling all fields from request with null userId
+	common.db.models.order
+		.create(
+			{
+				userId: null,
+				dateStamp: res.now.dateStamp.toString(),
+				restaurantId: req.body.restaurantId,
+				item: (req.body.item || "").trim(),
+				notes: (req.body.notes || "").trim(),
+				firstName: (req.body.firstName || "").trim(),
+				lastName: (req.body.lastName || "").trim(),
+				email: (req.body.email || "").trim()
+			}
+		).then(function(order) {
+
+			// Return created order
+			res.send(order);
+		});
+}
+
 // Delete the current user's order for today
 function deleteOrder(req, res, next) {
 						
@@ -136,5 +159,6 @@ module.exports = {
 	getOrder: getOrder,
 	getOrders: getOrders,
 	createUpdateOrder: createUpdateOrder,
+	createGuestOrder: createGuestOrder,
 	deleteOrder: deleteOrder
 };

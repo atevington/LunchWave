@@ -63,7 +63,7 @@ app.get(
 	controllers.getOrders
 );
 
-// Update today's order for current user
+// Create / update today's order for current user
 app.post(
 	"/api/user/order",
 	checkSetAuth,
@@ -79,6 +79,15 @@ app.delete(
 	checkSetAuth,
 	middleware.checkOrderingClosed,
 	controllers.deleteOrder
+);
+
+// Insert guest order
+app.post(
+	"/api/guest/order",
+	middleware.checkOrderingClosed,
+	middleware.setRestaurants,
+	middleware.checkRestaurantActive,
+	controllers.createGuestOrder
 );
 
 // See if current day is closed for ordering

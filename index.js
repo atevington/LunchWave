@@ -37,7 +37,7 @@ app.use(
 
 // Application info
 app.get(
-	"/api/appInfo",
+	"/api/appinfo",
 	controllers.getAppInfo.bind(self, googleClientId)
 );
 
@@ -76,8 +76,10 @@ app.delete(
 
 // Last x orders for current user and restaurant (excluding today) - can use ?limit=x or default to 5
 app.get(
-	"/api/user/pastOrders/:restaurantId",
+	"/api/user/pastorders/:restaurantId",
 	checkSetAuth,
+	middleware.setRestaurants,
+	middleware.checkRestaurantActive,
 	controllers.getPastOrders
 );
 
@@ -95,14 +97,14 @@ app.post(
 
 // See if current day is closed for ordering
 app.get(
-	"/api/closedDay",
+	"/api/closedday",
 	checkSetAuth,
 	controllers.getClosedDay
 );
 
 // Close current day for ordering
 app.post(
-	"/api/closedDay",
+	"/api/closedday",
 	checkSetAuth,
 	middleware.setAdmin,
 	middleware.checkAdmin,
@@ -111,7 +113,7 @@ app.post(
 
 // Re-open current day for ordering
 app.delete(
-	"/api/closedDay",
+	"/api/closedday",
 	checkSetAuth,
 	middleware.setAdmin,
 	middleware.checkAdmin,

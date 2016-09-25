@@ -31,12 +31,11 @@ function checkRestaurantActive(req, res, next) {
 	// Initially false
 	var valid = false;
 	
+	// Restaurant ID from request
+	var restaurantId = parseInt(req.body.restaurantId || req.params.restaurantId || "0", 10)
+	
 	// See if restaurantId passed in is active today
-	if (
-		res.restaurants.filter(function(val) {
-			return val.id === parseInt(req.body.restaurantId || "0", 10);
-		}).length > 0
-	) {
+	if (res.restaurants.filter(function(val) { return val.id === restaurantId; }).length > 0) {
 		
 		// We're good
 		valid = true;
@@ -48,7 +47,7 @@ function checkRestaurantActive(req, res, next) {
 		[
 			valid,
 			common.statusCodes.forbidden,
-			common.message("Sorry, the restaurant you tried to order from is not open today."),
+			common.message("Sorry, the restaurant you requested is not open today."),
 			res,
 			next
 		]

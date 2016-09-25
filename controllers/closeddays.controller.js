@@ -45,8 +45,43 @@ function closeDay(req, res) {
 		});
 }
 
+// Delete the current user's order for today
+function openDay(req, res, next) {
+						
+	// See if a closed day record exists for today
+	common.db.models.closedDay
+		.findOne({
+			where: {
+				id: res.now.dateStamp.toString()
+			}
+		})
+		.then(function(closedDay) {
+			
+			if (closedDay !== null) {
+				
+				// Found record, delete it
+				common.db.models.closedDay
+					.destroy({
+						where: {
+							id: res.now.dateStamp.toString()
+						}		
+					}).then(function() {
+						
+						// End response, no body
+						res.send();
+					});
+				
+			} else {
+			
+				// Not found, so 404
+				next();
+			}
+		});
+}
+
 // Expose our functions
 module.exports = {
 	getClosedDay: getClosedDay,
-	closeDay: closeDay
+	closeDay: closeDay,
+	openDay: openDay
 };

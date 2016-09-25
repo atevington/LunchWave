@@ -50,62 +50,50 @@ function getOrders(req, res, next) {
 
 // Create and / or update the current user's order for today
 function createUpdateOrder(req, res, next) {
-	
-	// See if restaurantId passed in is active today
-	if (
-		res.restaurants.filter(function(val) {
-			return val.id === parseInt(req.body.restaurantId || "0", 10);
-		}).length === 0
-	) {
-		
-		// It's not, so 404
-		next();
-	} else {
 
-		// Query order for current user and today, create if it doesn't exist
-		common.db.models.order
-			.findOrCreate({
-				where: {
-					userId: res.userInfo.id,
-					dateStamp: res.now.dateStamp.toString()
-				}
-			})
-			.then(function() {
-				
-				// Update order again
-				common.db.models.order
-					.update(
-						{
-							restaurantId: req.body.restaurantId,
-							item: (req.body.item || "").trim(),
-							notes: (req.body.notes || "").trim(),
-							firstName: res.userInfo.firstName,
-							lastName: res.userInfo.lastName,
-							email: res.userInfo.email,
-						},
-						{
+	// Query order for current user and today, create if it doesn't exist
+	common.db.models.order
+		.findOrCreate({
+			where: {
+				userId: res.userInfo.id,
+				dateStamp: res.now.dateStamp.toString()
+			}
+		})
+		.then(function() {
+		
+			// Update order again
+			common.db.models.order
+				.update(
+					{
+						restaurantId: req.body.restaurantId,
+						item: (req.body.item || "").trim(),
+						notes: (req.body.notes || "").trim(),
+						firstName: res.userInfo.firstName,
+						lastName: res.userInfo.lastName,
+						email: res.userInfo.email,
+					},
+					{
+						where: {
+							userId: res.userInfo.id,
+							dateStamp: res.now.dateStamp.toString()
+						}
+					}
+				).then(function() {
+					
+					// Query order again
+					common.db.models.order
+						.findOne({
 							where: {
 								userId: res.userInfo.id,
 								dateStamp: res.now.dateStamp.toString()
-							}
-						}
-					).then(function() {
-						
-						// Query order again
-						common.db.models.order
-							.findOne({
-								where: {
-									userId: res.userInfo.id,
-									dateStamp: res.now.dateStamp.toString()
-								}		
-							}).then(function(order) {
-								
-								// Return record
-								res.send(order);
-							});
-					});
-			});	
-	}
+							}		
+						}).then(function(order) {
+							
+							// Return record
+							res.send(order);
+						});
+				});
+		});
 }
 
 // Delete the current user's order for today

@@ -69,6 +69,7 @@ app.post(
 	checkSetAuth,
 	middleware.checkOrderingClosed,
 	middleware.setRestaurants,
+	middleware.checkRestaurantActive,
 	controllers.createUpdateOrder
 );
 
@@ -93,6 +94,15 @@ app.post(
 	middleware.setAdmin,
 	middleware.checkAdmin,
 	controllers.closeDay
+);
+
+// Re-open current day for ordering
+app.delete(
+	"/api/closedDay",
+	checkSetAuth,
+	middleware.setAdmin,
+	middleware.checkAdmin,
+	controllers.openDay
 );
 
 // All restaurants open for the day

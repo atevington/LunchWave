@@ -15,7 +15,7 @@ cd LunchWave
 npm install
 
 # start with some test restaurants (optional)
-node recreatetestdata.js
+node .\utility\recreatetestdata.js
 
 # start the Express and dev (client) servers
 npm run start

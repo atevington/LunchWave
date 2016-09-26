@@ -1,30 +1,30 @@
 /*
 This is an internal command line utility for interacting with the database.
-The command format is: node dbadmin.js: "method" "entity" "param1" ... "paramN"
+The command format is: node .\utility\dbadmin.js: "method" "entity" "param1" ... "paramN"
 You can pass quoted JSON or raw JS for params.
 
 Examples:
 
-node dbadmin.js findAll restaurant
+node .\utility\dbadmin.js findAll restaurant
 
-node dbadmin.js findOne restaurant "{where: {id: 123}}"
-node dbadmin.js findOne restaurant '{\"where\": {\"id\": 123}}'
+node .\utility\dbadmin.js findOne restaurant "{where: {id: 123}}"
+node .\utility\dbadmin.js findOne restaurant '{\"where\": {\"id\": 123}}'
 
-node dbadmin.js create restaurant "{name: 'New Restaurant', sunday: true}"
-node dbadmin.js create restaurant '{\"name\": \"New Restaurant\", \"sunday\": true}'
+node .\utility\dbadmin.js create restaurant "{name: 'New Restaurant', sunday: true}"
+node .\utility\dbadmin.js create restaurant '{\"name\": \"New Restaurant\", \"sunday\": true}'
 
-node dbadmin.js destroy restaurant "{where: {id: 123}}"
-node dbadmin.js destroy restaurant '{\"where\": {\"id\": 123}}'
+node .\utility\dbadmin.js destroy restaurant "{where: {id: 123}}"
+node .\utility\dbadmin.js destroy restaurant '{\"where\": {\"id\": 123}}'
 
-node dbadmin.js update restaurant "{name: 'Updated Name'}" "{where:{}}"
-node dbadmin.js update restaurant '{\"name\": \"Updated Name\"}' '{\"where\":{}}'
+node .\utility\dbadmin.js update restaurant "{name: 'Updated Name'}" "{where:{}}"
+node .\utility\dbadmin.js update restaurant '{\"name\": \"Updated Name\"}' '{\"where\":{}}'
 
-node dbadmin.js update restaurant "{name: 'Updated Name'}" "{where: {id: 123}}"
-node dbadmin.js update restaurant '{\"name\": \"Updated Name\"}' '{\"where\": {\"id\": 123}}'
+node .\utility\dbadmin.js update restaurant "{name: 'Updated Name'}" "{where: {id: 123}}"
+node .\utility\dbadmin.js update restaurant '{\"name\": \"Updated Name\"}' '{\"where\": {\"id\": 123}}'
 */
 
 // DB
-var db = require("./database.js");
+var db = require("../database.js");
 
 // CRUD action
 var action = (process.argv[2] || "").trim();

@@ -47,7 +47,7 @@ var commandOptions = { stdio: [0, 1, 2] };
 var command = "";
 
 // Drop and re-create DB
-//db.store.sync({ force: true }).then(function() {
+db.store.sync({ force: true }).then(function() {
 	console.log(arguments);
 	
 	// Space
@@ -71,7 +71,7 @@ var command = "";
 		// Space
 		console.log();
 	}
-//});
+});
 
 // Wrap single quotes around object
 function stringifyWrap(obj) {

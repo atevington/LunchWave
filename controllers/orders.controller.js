@@ -27,7 +27,7 @@ function getOrder(req, res, next) {
 		});
 }
 
-// Last x orders for current user
+// Last x orders for current user and restaurant
 function getPastOrders(req, res, next) {
 	
 	// Query for last x orders for current user
@@ -54,6 +54,9 @@ function createUpdateOrder(req, res, next) {
 	// Query order for current user and today, create if it doesn't exist
 	common.db.models.order
 		.findOrCreate({
+			defaults: {
+				restaurantId: parseInt(req.body.restaurantId || "0", 10)
+			},
 			where: {
 				userId: res.userInfo.id,
 				dateStamp: res.now.dateStamp.toString()
@@ -65,7 +68,7 @@ function createUpdateOrder(req, res, next) {
 			common.db.models.order
 				.update(
 					{
-						restaurantId: parseInt(req.params.restaurantId || "0", 10),
+						restaurantId: parseInt(req.body.restaurantId || "0", 10),
 						item: (req.body.item || "").trim(),
 						notes: (req.body.notes || "").trim(),
 						firstName: res.userInfo.firstName,
@@ -105,7 +108,7 @@ function createGuestOrder(req, res, next) {
 			{
 				userId: null,
 				dateStamp: res.now.dateStamp.toString(),
-				restaurantId: parseInt(req.params.restaurantId || "0", 10),
+				restaurantId: parseInt(req.body.restaurantId || "0", 10),
 				item: (req.body.item || "").trim(),
 				notes: (req.body.notes || "").trim(),
 				firstName: (req.body.firstName || "").trim(),

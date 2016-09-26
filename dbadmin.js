@@ -44,18 +44,22 @@ for (var i = 4; i < process.argv.length; i++) {
 
 // Ensure proper params
 if (db.models[model] && db.models[model][action] && validParams(params)) {
-
-	// Execute action on model
-	db.models[model][action].apply(db.models[model], params).then(function() {
+	
+	// Sync all tables
+	db.store.sync().then(function() {
 		
-		// Copy args object
-		var output = Array.prototype.slice.call(arguments);
+		// Execute action on model
+		db.models[model][action].apply(db.models[model], params).then(function() {
+			
+			// Copy args object
+			var output = Array.prototype.slice.call(arguments);
 
-		// Output each result
-		for (var i = 0; i < output.length; i++) {
-			console.log("Output " + (i + 1).toString() + ":");
-			console.log(output[i]);
-		}
+			// Output each result
+			for (var i = 0; i < output.length; i++) {
+				console.log("Output " + (i + 1).toString() + ":");
+				console.log(output[i]);
+			}
+		});
 	});
 } else {
 	
@@ -63,15 +67,15 @@ if (db.models[model] && db.models[model][action] && validParams(params)) {
 	console.log("Error parsing input..");
 }
 
-// Support formats like "{where:{id:123}}" (unquoted JSON) and '{\"where\":{\"id\":123}}' (regular JSON)
+// Turn command line input into an object
 function parseUnsafeJSON(json) {
+	
+	// Eval input, return object
 	try {
+		return new Function("var query = " + json + "; return query;")();
 		
-		// Eval input, return object
-		return new Function("var query = " + json + "; return query;")();	
+	// Error, return null
 	} catch (e) {
-		
-		// Error, return null
 		return null;
 	}
 }

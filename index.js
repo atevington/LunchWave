@@ -83,7 +83,7 @@ app.get(
 	controllers.getPastOrders
 );
 
-// Insert guest order
+// Insert guest order for today
 app.post(
 	"/api/guest/order",
 	checkSetAuth,

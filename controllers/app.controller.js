@@ -4,7 +4,8 @@ var common = require("./common.controllers.js");
 // Application info
 function getAppInfo(googleClientId, req, res) {
 	res.send({
-		googleClientId: googleClientId
+		googleClientId: googleClientId,
+		now: res.now
 	});
 }
 

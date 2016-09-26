@@ -1,6 +1,6 @@
 /*
 This is an internal command line utility for interacting with the database.
-The command format is: node .\utility\dbadmin.js: "method" "entity" "param1" ... "paramN"
+The command format is: node .\utility\dbadmin.js "method" "entity" "param1" ... "paramN"
 You can pass quoted JSON or raw JS for params.
 
 Examples:

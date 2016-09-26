@@ -1,7 +1,7 @@
 /*
 This will drop and re-create your database and create some test restaurants
 
-Example usage: node recreatetestdata.js
+Example usage: node .\utility\recreatetestdata.js
 */
 
 // DB

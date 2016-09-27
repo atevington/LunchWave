@@ -14,12 +14,21 @@ cd LunchWave
 # install the dependencies with npm
 npm install
 
-# start with some test restaurants (optional)
+# add some test restaurants (optional)
 node .\utility\recreatetestdata.js
 
-# start the Express and dev (client) servers
+# start just the Express server on port 3001
+npm run server
+
+# start just the Webpack server on port 3000
+npm run client
+
+# alternatively start both the API and Webpack servers
+# note: all calls to /api/* will be proxied to 3001
 npm run start
 ```
+
+### Explore the client application
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 

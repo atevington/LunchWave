@@ -54,4 +54,7 @@ node .\utility\dbadmin.js create restaurant "{name: 'Restaurant Name', sunday: f
 
 # set a menu image for a restaurant
 node .\utility\dbadmin.js create restaurantImage "{restaurantId: 0 /* replace 0 with restaurant id */, url: 'https://domain.com/path/to/image.png'}"
+
+# deactivate a restaurant
+node .\utility\dbadmin.js update restaurant "{active: false}" "{where: {id: 0 /* replace 0 with restaurant id */}}"
 ```

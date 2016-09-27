@@ -48,6 +48,20 @@ function getPastOrders(req, res, next) {
 		});
 }
 
+function getDailyOrders(req, res, next) {
+	common.db.models.order
+		.findAll({
+			where: {
+				restaurantId:  parseInt(req.params.restaurantId || "0", 10),
+				dateStamp:res.now.dateStamp.toString()
+			},
+			order: "firstName, lastName"
+		})
+		.then(function(orders) {
+			res.send(orders);
+		})
+}
+
 // Create and / or update the current user's order for today
 function createUpdateOrder(req, res, next) {
 
@@ -163,5 +177,6 @@ module.exports = {
 	getPastOrders: getPastOrders,
 	createUpdateOrder: createUpdateOrder,
 	createGuestOrder: createGuestOrder,
-	deleteOrder: deleteOrder
+	deleteOrder: deleteOrder,
+	getDailyOrders: getDailyOrders
 };

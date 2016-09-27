@@ -8,6 +8,7 @@ module.exports = {
 	getRestaurants: require("./controllers/restaurants.controller.js").getRestaurants,
 	getOrder: require("./controllers/orders.controller.js").getOrder,
 	getPastOrders: require("./controllers/orders.controller.js").getPastOrders,
+	getDailyOrders: require("./controllers/orders.controller").getDailyOrders,
 	createUpdateOrder: require("./controllers/orders.controller.js").createUpdateOrder,
 	createGuestOrder: require("./controllers/orders.controller.js").createGuestOrder,
 	deleteOrder: require("./controllers/orders.controller.js").deleteOrder

@@ -49,6 +49,9 @@ ls public
 # mark a user as an admin
 node .\utility\dbadmin.js create administrator "{id: 'GOOGLE_ID' /* replace with Google profile id */}"
 
+# un-flag user as an admin
+node .\utility\dbadmin.js destroy administrator "{where: {id: 'GOOGLE_ID' /* replace with Google profile id */}}"
+
 # create a new restaurant
 node .\utility\dbadmin.js create restaurant "{name: 'Restaurant Name', sunday: false /* mark true as needed for relevant day */, monday: false, tuesday: false, wednesday: false, thursday: false, friday: false, saturday: false}"
 

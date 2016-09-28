@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "react-fa": "^4.1.2",
+    "react-google-login": "^2.5.2",
     "react-google-login-component": "^0.5.2",
     "react-scripts": "^0.6.0"
   },

@@ -1,5 +1,5 @@
-// DB
-var db = require("../models");
+// DB models
+var models = require("../models").models
 
 // All restaurants for current day
 function getRestaurants(req, res, next) {

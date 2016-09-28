@@ -1,11 +1,11 @@
-// DB
-var db = require("../models");
+// DB models
+var models = require("../models").models
 
 // See if ordering is closed for the day
 function getClosedDay(req, res, next) {
 	
 	// See if a closed day record exists for today
-	db.models.closedDay
+	models.closedDay
 		.findOne({
 			where: {
 				id: res.now.dateStamp.toString()
@@ -32,7 +32,7 @@ function getClosedDay(req, res, next) {
 function closeDay(req, res) {
 	
 	// See if a closed day record exists for today, create if not
-	db.models.closedDay
+	models.closedDay
 		.findOrCreate({
 			where: {
 				id: res.now.dateStamp.toString()
@@ -49,7 +49,7 @@ function closeDay(req, res) {
 function openDay(req, res, next) {
 						
 	// See if a closed day record exists for today
-	db.models.closedDay
+	models.closedDay
 		.findOne({
 			where: {
 				id: res.now.dateStamp.toString()
@@ -60,7 +60,7 @@ function openDay(req, res, next) {
 			if (closedDay !== null) {
 				
 				// Found record, delete it
-				db.models.closedDay
+				models.closedDay
 					.destroy({
 						where: {
 							id: res.now.dateStamp.toString()

@@ -1,11 +1,11 @@
-// DB
-var db = require("../models");
+// DB models
+var models = require("../models").models
 
 // Today's order for current user
 function getOrder(req, res, next) {
 
 	// Query orders for current user and today
-	db.models.order
+	models.order
 		.findOne({
 			where: {
 				userId: res.userInfo.id,
@@ -31,7 +31,7 @@ function getOrder(req, res, next) {
 function getPastOrders(req, res, next) {
 	
 	// Query for last x orders for current user
-	db.models.order
+	models.order
 		.findAll({
 			where: {
 				userId: res.userInfo.id,
@@ -49,7 +49,7 @@ function getPastOrders(req, res, next) {
 }
 
 function getDailyOrders(req, res, next) {
-	db.models.order
+	models.order
 		.findAll({
 			where: {
 				restaurantId:  parseInt(req.params.restaurantId || "0", 10),
@@ -66,7 +66,7 @@ function getDailyOrders(req, res, next) {
 function createUpdateOrder(req, res, next) {
 
 	// Query order for current user and today, create if it doesn't exist
-	db.models.order
+	models.order
 		.findOrCreate({
 			defaults: {
 				restaurantId: parseInt(req.body.restaurantId || "0", 10)
@@ -79,7 +79,7 @@ function createUpdateOrder(req, res, next) {
 		.then(function() {
 		
 			// Update order again
-			db.models.order
+			models.order
 				.update(
 					{
 						restaurantId: parseInt(req.body.restaurantId || "0", 10),
@@ -98,7 +98,7 @@ function createUpdateOrder(req, res, next) {
 				).then(function() {
 					
 					// Query order again
-					db.models.order
+					models.order
 						.findOne({
 							where: {
 								userId: res.userInfo.id,
@@ -117,7 +117,7 @@ function createUpdateOrder(req, res, next) {
 function createGuestOrder(req, res, next) {
 
 	// Insert guest order, pulling all fields from request with null userId
-	db.models.order
+	models.order
 		.create(
 			{
 				userId: null,
@@ -140,7 +140,7 @@ function createGuestOrder(req, res, next) {
 function deleteOrder(req, res, next) {
 						
 	// Query order
-	db.models.order
+	models.order
 		.findOne({
 			where: {
 				userId: res.userInfo.id,
@@ -151,7 +151,7 @@ function deleteOrder(req, res, next) {
 			if (order !== null) {
 				
 				// Found record, delete it
-				db.models.order
+				models.order
 					.destroy({
 						where: {
 							userId: res.userInfo.id,

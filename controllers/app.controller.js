@@ -1,5 +1,5 @@
-// DB
-var db = require("../models");
+// DB models
+var models = require("../models").models
 
 // Application info
 function getAppInfo(googleClientId, req, res) {

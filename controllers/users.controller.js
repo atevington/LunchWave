@@ -1,5 +1,5 @@
-// DB
-var db = require("../models");
+// DB models
+var models = require("../models").models
 
 // Current user
 function getUser(req, res) {

@@ -32,7 +32,8 @@ function message(responseMessage) {
 
 // Expose our functions
 module.exports = {
-	db: db,
+	store: db.store,
+	models: db.models,
 	http: http,
 	parser: parser,
 	statusCodes: statusCodes,

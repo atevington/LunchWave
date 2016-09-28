@@ -5,7 +5,7 @@ var common = require("./common.middleware.js");
 function setAdmin(req, res, next) {
 	
 	// Search for an administrator record for the current user id
-	common.db.models.administrator
+	common.models.administrator
 		.findOne({
 			where: {
 				id: res.userInfo.id

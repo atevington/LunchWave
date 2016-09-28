@@ -5,7 +5,7 @@ var common = require("./common.middleware.js");
 function syncDB(req, res, next) {
 	
 	// Sync all tables
-	common.db.store.sync().then(function() {
+	common.store.sync().then(function() {
 		
 		// Continue to next route
 		next();

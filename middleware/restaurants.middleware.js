@@ -10,7 +10,7 @@ function setRestaurants(req, res, next) {
 	query.active = true;
 
 	// Query active restaurants for current day
-	common.db.models.restaurant
+	common.models.restaurant
 		.findAll({ where: query, order: "name ASC" })
 		.then(function(restaurants) {
 

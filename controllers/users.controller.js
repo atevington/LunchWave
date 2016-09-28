@@ -1,5 +1,5 @@
 // DB
-var db = require("../dbinstance");
+var db = require("../models");
 
 // Current user
 function getUser(req, res) {

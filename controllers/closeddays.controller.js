@@ -1,5 +1,5 @@
 // DB models
-var models = require("../models").models
+var models = require("../models").models;
 
 // See if ordering is closed for the day
 function getClosedDay(req, res, next) {

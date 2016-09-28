@@ -1,5 +1,5 @@
 // DB models
-var models = require("../models").models
+var models = require("../models").models;
 
 // Today's order for current user
 function getOrder(req, res, next) {

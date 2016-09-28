@@ -1,17 +1,17 @@
-// Common includes
-var common = require("./common.model.js");
+// DB
+var db = require("../dbinstance");
 
 // Orders
-var order = common.db.define(
+var order = db.store.define(
 	"order",
 	{
-		item: { field: "item", type: common.sequelize.STRING(50), primaryKey: false, allowNull: false, defaultValue: "" },
-		notes: { field: "notes", type: common.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
-		userId: { field: "userId", type: common.sequelize.STRING(255), primaryKey: false, allowNull: true },
-		firstName: { field: "firstName", type: common.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
-		lastName: { field: "lastName", type: common.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
-		email: { field: "email", type: common.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
-		dateStamp: { field: "dateStamp", type: common.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" }
+		item: { field: "item", type: db.sequelize.STRING(50), primaryKey: false, allowNull: false, defaultValue: "" },
+		notes: { field: "notes", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
+		userId: { field: "userId", type: db.sequelize.STRING(255), primaryKey: false, allowNull: true },
+		firstName: { field: "firstName", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
+		lastName: { field: "lastName", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
+		email: { field: "email", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
+		dateStamp: { field: "dateStamp", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" }
 	},
 	{ tableName: "orders" }
 );

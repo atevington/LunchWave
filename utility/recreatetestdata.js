@@ -5,7 +5,7 @@ Example usage: node .\utility\recreatetestdata.js
 */
 
 // DB
-var db = require("../database.js");
+var db = require("../models");
 
 // Restaurants to create
 var sunday = {name: "Sunday Restaurant", sunday: true};

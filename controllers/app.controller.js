@@ -1,5 +1,5 @@
-// Common includes
-var common = require("./common.controllers.js");
+// DB
+var db = require("../dbinstance");
 
 // Application info
 function getAppInfo(googleClientId, req, res) {

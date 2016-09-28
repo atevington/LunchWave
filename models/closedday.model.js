@@ -1,10 +1,10 @@
-// Common includes
-var common = require("./common.model.js");
+// DB
+var db = require("../dbinstance");
 
 // Closed days for ordering
-var closedDay = common.db.define(
+var closedDay = db.store.define(
 	"closedDay",
-	{ id: { field: "id", type: common.sequelize.STRING(255), primaryKey: true, allowNull: false } },
+	{ id: { field: "id", type: db.sequelize.STRING(255), primaryKey: true, allowNull: false } },
 	{ tableName: "closedDays" }
 );
 

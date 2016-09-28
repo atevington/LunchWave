@@ -1,11 +1,11 @@
-// Common includes
-var common = require("./common.model.js");
+// DB
+var db = require("../dbinstance");
 
 // Restaurant images
-var restaurantImage = common.db.define(
+var restaurantImage = db.store.define(
 	"restaurantImage",
 	{
-		url: { field: "url", type: common.sequelize.STRING(1000), primaryKey: false, allowNull: false, defaultValue: "" }
+		url: { field: "url", type: db.sequelize.STRING(1000), primaryKey: false, allowNull: false, defaultValue: "" }
 	},
 	{ tableName: "restaurantImages" }
 );

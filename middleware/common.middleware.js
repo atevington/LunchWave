@@ -1,5 +1,5 @@
 // DB
-var db = require("../database.js");
+var db = require("../models");
 
 // HTTP / HTTPS library
 var http = require("request");

@@ -1,11 +1,11 @@
-// Common includes
-var common = require("./common.controllers.js");
+// DB
+var db = require("../dbinstance");
 
 // See if ordering is closed for the day
 function getClosedDay(req, res, next) {
 	
 	// See if a closed day record exists for today
-	common.db.models.closedDay
+	db.store.models.closedDay
 		.findOne({
 			where: {
 				id: res.now.dateStamp.toString()
@@ -32,7 +32,7 @@ function getClosedDay(req, res, next) {
 function closeDay(req, res) {
 	
 	// See if a closed day record exists for today, create if not
-	common.db.models.closedDay
+	db.store.models.closedDay
 		.findOrCreate({
 			where: {
 				id: res.now.dateStamp.toString()
@@ -49,7 +49,7 @@ function closeDay(req, res) {
 function openDay(req, res, next) {
 						
 	// See if a closed day record exists for today
-	common.db.models.closedDay
+	db.store.models.closedDay
 		.findOne({
 			where: {
 				id: res.now.dateStamp.toString()
@@ -60,7 +60,7 @@ function openDay(req, res, next) {
 			if (closedDay !== null) {
 				
 				// Found record, delete it
-				common.db.models.closedDay
+				db.store.models.closedDay
 					.destroy({
 						where: {
 							id: res.now.dateStamp.toString()

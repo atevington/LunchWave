@@ -1,5 +1,5 @@
-// Common includes
-var common = require("./common.controllers.js");
+// DB
+var db = require("../dbinstance");
 
 // All restaurants for current day
 function getRestaurants(req, res, next) {

@@ -1,5 +1,5 @@
 // For auth and other stuff
-var middleware = require("./middleware.js");
+var middleware = require("./middleware");
 
 // Controllers for routes
 var controllers = require("./controllers");
@@ -83,13 +83,13 @@ app.get(
 	controllers.getPastOrders
 );
 
-//Get all users orders for today
+//Get all restaurant orders for today
 app.get("/api/restaurants/:restaurantId/orders",
 	checkSetAuth,
 	middleware.setRestaurants,
 	middleware.checkRestaurantActive,
 	controllers.getDailyOrders
-)
+);
 
 // Insert guest order for today
 app.post(

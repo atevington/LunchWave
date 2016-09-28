@@ -1,10 +1,10 @@
-// Common includes
-var common = require("./common.model.js");
+// DB
+var db = require("../dbinstance");
 
 // Lunch administrators
-var administrator = common.db.define(
+var administrator = db.store.define(
 	"administrator",
-	{ id: { field: "id", type: common.sequelize.STRING(255), primaryKey: true, allowNull: false } },
+	{ id: { field: "id", type: db.sequelize.STRING(255), primaryKey: true, allowNull: false } },
 	{ tableName: "administrators" }
 );
 

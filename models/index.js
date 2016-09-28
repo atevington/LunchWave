@@ -1,12 +1,12 @@
 // DB
-var db = require("./models/common.model.js").db;
+var db = require("../dbinstance");
 
 // All models
-var closedDay = require("./models/closedday.model.js").closedDay;
-var administrator = require("./models/administrator.model.js").administrator;
-var restaurant = require("./models/restaurant.model.js").restaurant;
-var restaurantImage = require("./models/restaurantimage.model.js").restaurantImage;
-var order = require("./models/order.model.js").order;
+var closedDay = require("./closedday.model.js").closedDay;
+var administrator = require("./administrator.model.js").administrator;
+var restaurant = require("./restaurant.model.js").restaurant;
+var restaurantImage = require("./restaurantimage.model.js").restaurantImage;
+var order = require("./order.model.js").order;
 
 // For entities that relate to restaurants
 var restaurantForeignKey = {foreignKey: {name: "restaurantId", allowNull: false}};
@@ -19,7 +19,7 @@ restaurantImage.belongsTo(restaurant, restaurantForeignKey);
 
 // Expose our functions
 module.exports = {
-	store: db,
+	store: db.store,
 	models: {
 		closedDay: closedDay,
 		administrator: administrator,

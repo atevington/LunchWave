@@ -24,7 +24,7 @@ node .\utility\dbadmin.js update restaurant '{\"name\": \"Updated Name\"}' '{\"w
 */
 
 // DB
-var db = require("../database.js");
+var db = require("../models");
 
 // CRUD action
 var action = (process.argv[2] || "").trim();

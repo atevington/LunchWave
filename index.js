@@ -2,7 +2,7 @@
 var middleware = require("./middleware.js");
 
 // Controllers for routes
-var controllers = require("./controllers.js");
+var controllers = require("./controllers");
 
 // Routing
 var express = require("express");

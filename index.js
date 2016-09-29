@@ -136,6 +136,13 @@ app.get(
 	controllers.getRestaurants
 );
 
+app.get(
+	"/api/restaurants/:restaurantId/images",
+	checkSetAuth,
+	middleware.setRestaurants,
+	controllers.getRestaurantImages
+);
+
 // 404 for API requests - must be last api route defined
 app.use(
 	"/api/*",
@@ -146,6 +153,6 @@ app.use(
 app.use(express.static("public"));
 
 // Start the server
-app.listen(port, function() {
-  console.log("[server] Express listening http://localhost:" + port + "/");
-});
+	app.listen(port, function() {
+	  console.log("[server] Express listening http://localhost:" + port + "/");
+	});

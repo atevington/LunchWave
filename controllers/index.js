@@ -6,6 +6,7 @@ module.exports = {
 	closeDay: require("./closeddays.controller.js").closeDay,
 	openDay: require("./closeddays.controller.js").openDay,
 	getRestaurants: require("./restaurants.controller.js").getRestaurants,
+	getRestaurantImages: require("./restaurantimages.controller.js").getRestaurantImages,
 	getOrder: require("./orders.controller.js").getOrder,
 	getPastOrders: require("./orders.controller.js").getPastOrders,
 	getDailyOrders: require("./orders.controller").getDailyOrders,

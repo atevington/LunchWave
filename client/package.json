@@ -14,13 +14,8 @@
   "devDependencies": {
     "react-fa": "^4.1.2",
     "react-google-login": "^2.5.2",
-    "react-google-login-component": "^0.5.2",
-    "react-scripts": "^0.6.0"
-  },
-  "dependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-router": "^2.8.1"
+    "react-scripts": "^0.6.0",
+    "superagent": "^2.3.0"
   },
   "proxy": "http://localhost:3001"
 }

@@ -1,16 +1,21 @@
+// DB models
 var models = require("../models").models;
 
+// Get all menu images for a restaurant
 function getRestaurantImages(req, res, next) {
 
-    // Return restaurants from response object
-    models.restaurantImage.findAll({
-        where: {restaurantId: parseInt(req.params.restaurantId || "0", 10)}
-    })
-        .then(function(images) {
-            res.send(images);
-        })
+	// Return restaurants from response object
+	models.restaurantImage
+		.findAll({
+			where: {restaurantId: parseInt(req.params.restaurantId || "0", 10)},
+			order: "url"
+		})
+		.then(function(images) {
+			res.send(images);
+		})
 }
 
+// Expose our functions
 module.exports = {
-    getRestaurantImages: getRestaurantImages
-}
+	getRestaurantImages: getRestaurantImages
+};

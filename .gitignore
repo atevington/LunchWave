@@ -3,4 +3,5 @@ data/*.sqlite
 .DS_Store
 public/
 npm-debug.log
-.idea/
+.idea
+client/build/

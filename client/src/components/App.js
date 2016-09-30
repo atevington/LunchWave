@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import 'bootstrap/dist/css/bootstrap.css'
+
 import auth from '../auth'
 
 export default class App extends Component {

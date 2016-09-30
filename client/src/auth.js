@@ -1,38 +1,43 @@
 import request from 'superagent'
 
-
-const expired = () => localStorage.token > Date.now()
+const expired = () => localStorage.expires_at < Date.now()
 
 module.exports = {
+
   login(token, cb) {
-    console.log(token)
+    var id_token = token
+      ? token.id_token
+      : null || localStorage.id_token
+
     cb = arguments[arguments.length - 1]
 
-    // TODO: rework this
-    if (!token && localStorage.token && !expired()) {
-      token = localStorage.token
-    } else {
+    if (token) localStorage.expires_at = token.expires_at
+
+    // sanity check and escape
+    if (expired() || !id_token) {
       if (cb) cb(false)
       this.onChange(false)
-      console.log('no token')
       return
     }
 
-    this.authenticateUser(token, cb)
+    // authenticate with the server
+    this.authenticateUser(id_token, cb)
   },
 
-  authenticateUser(token, cb) {
-    // authenticate with server using google JWT
+  authenticateUser(id_token, cb) {
     request.get('/api/user')
-      .set('X-Google-Token', token.id_token)
+      .set('X-Google-Token', id_token)
       .end((err, res) => {
-        if (res.body.id) {
-          localStorage.token = token.id_token
-          localStorage.expiration = token.expires_at
+        if (res.status === 200) {
+          // store the token and expiration for another time
+          localStorage.id_token = id_token
 
+          // return some good news
           if (cb) cb(true)
           this.onChange(true)
-        } else {
+        }
+        // nope
+        else if (res.status === 401) {
           if (cb) cb(false)
           this.logout()
         }
@@ -40,15 +45,17 @@ module.exports = {
   },
 
   logout(cb) {
-    delete localStorage.token
-    delete localStorage.expiration
+    delete localStorage.id_token
+    delete localStorage.expires_at
     if (cb) cb()
     this.onChange(false)
   },
 
-  getClientId: () => request.get('/api/appinfo'),
+  getClientId: () => request.get('/api/appinfo').end((err, res) => {
+    return res.body.googleClientId
+  }),
 
-  loggedIn: () => !!localStorage.token,
+  loggedIn: () => !!localStorage.id_token,
 
   onChange() {}
 }

@@ -140,6 +140,7 @@ app.get(
 	"/api/restaurants/:restaurantId/images",
 	checkSetAuth,
 	middleware.setRestaurants,
+	middleware.checkRestaurantActive,
 	controllers.getRestaurantImages
 );
 

@@ -11,8 +11,6 @@ module.exports = {
 
     cb = arguments[arguments.length - 1]
 
-    if (token) localStorage.expires_at = token.expires_at
-
     // sanity check and escape
     if (expired() || !id_token) {
       if (cb) cb(false)
@@ -20,17 +18,14 @@ module.exports = {
       return
     }
 
-    // authenticate with the server
-    this.authenticateUser(id_token, cb)
-  },
-
-  authenticateUser(id_token, cb) {
+    // are we authenticated?
     request.get('/api/user')
       .set('X-Google-Token', id_token)
       .end((err, res) => {
         if (res.status === 200) {
           // store the token and expiration for another time
           localStorage.id_token = id_token
+          localStorage.expires_at = token.expires_at
 
           // return some good news
           if (cb) cb(true)
@@ -51,9 +46,8 @@ module.exports = {
     this.onChange(false)
   },
 
-  getClientId: () => request.get('/api/appinfo').end((err, res) => {
-    return res.body.googleClientId
-  }),
+  clientId: () => request.get('/api/appinfo')
+    .end((err, res) => res.body.googleClientId),
 
   loggedIn: () => !!localStorage.id_token,
 

@@ -16,7 +16,7 @@ class Login extends Component {
 
   componentWillMount() {
     // grab the clientId from the appinfo for the login button
-    auth.getClientId().end((err, res) => {
+    auth.clientId().end((err, res) => {
       if (res.status === 200)
         this.setState({ clientId: res.body.googleClientId })
     })
@@ -44,10 +44,11 @@ class Login extends Component {
       width: '3em'
     }
 
-    if (!this.state.clientId) {
-      return (<div className="alert alert-warning">Waiting on connection to server...</div>)
-    }
-    else {
+    if (!this.state.clientId)
+      return (
+        <div className="alert alert-warning">Awaiting connection...</div>
+      )
+    else
       return (
         <div>
           <GoogleLogin clientId={this.state.clientId}
@@ -58,10 +59,11 @@ class Login extends Component {
             <Icon name='google' />
             <span style={spanStyles}>Login</span>
           </GoogleLogin>
-          {this.state.error && (<div className="alert alert-danger">Bad login information</div>)}
+          {this.state.error && (
+            <div className="alert alert-danger">Bad login information</div>
+          )}
         </div>
       )
-    }
   }
 }
 

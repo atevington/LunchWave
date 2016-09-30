@@ -22,6 +22,13 @@ module.exports = {
     request.get('/api/user')
       .set('X-Google-Token', id_token)
       .end((err, res) => {
+        // nope
+        if (err) {
+          if (cb) cb(false)
+          this.logout()
+          return
+        }
+
         if (res.status === 200) {
           // store the token and expiration for another time
           localStorage.id_token = id_token
@@ -30,11 +37,6 @@ module.exports = {
           // return some good news
           if (cb) cb(true)
           this.onChange(true)
-        }
-        // nope
-        else if (res.status === 401) {
-          if (cb) cb(false)
-          this.logout()
         }
       })
   },

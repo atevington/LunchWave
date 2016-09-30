@@ -35,12 +35,7 @@ export default class App extends Component {
             )}
           </li>
           <li><Link to="/about">About</Link></li>
-          <li>
-            {this.state.loggedIn ? (
-              <Link to="/dashboard">Dashboard</Link>
-            ) : (
-              'Dashboard'
-            )} <small>(authenticated route)</small></li>
+            {this.state.loggedIn ? <li><Link to="/dashboard">Dashboard</Link></li> : null}
         </ul>
         {this.props.children || <p>You are {!this.state.loggedIn && 'not'} logged in.</p>}
       </div>

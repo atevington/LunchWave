@@ -8,7 +8,7 @@ function getRestaurantImages(req, res, next) {
 	models.restaurantImage
 		.findAll({
 			where: {restaurantId: parseInt(req.params.restaurantId || "0", 10)},
-			order: "url"
+			order: "id"
 		})
 		.then(function(images) {
 			res.send(images);

@@ -128,7 +128,7 @@ app.get(
 	controllers.getRestaurants
 );
 
-//Get all restaurant orders for today
+// Get all restaurant orders for today
 app.get("/api/restaurants/:restaurantId/orders",
 	checkSetAuth,
 	middleware.setRestaurants,

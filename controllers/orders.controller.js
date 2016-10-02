@@ -56,7 +56,7 @@ function getDailyOrders(req, res, next) {
 		.findAll({
 			where: {
 				restaurantId:  parseInt(req.params.restaurantId || "0", 10),
-				dateStamp:res.now.dateStamp
+				dateStamp: res.now.dateStamp
 			},
 			order: "firstName, lastName" // Order by user names
 		})

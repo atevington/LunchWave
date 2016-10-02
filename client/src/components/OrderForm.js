@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
                   <input id="entree"
                     name="entree"
                     type="text"
-                    placeholder="garden salad"
+                    placeholder="chicken tendies"
                     className="form-control input-md"/>
                 </div>
 

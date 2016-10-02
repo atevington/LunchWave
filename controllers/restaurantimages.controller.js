@@ -12,7 +12,7 @@ function getRestaurantImages(req, res, next) {
 		})
 		.then(function(images) {
 			res.send(images);
-		})
+		});
 }
 
 // Expose our functions

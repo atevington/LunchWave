@@ -48,18 +48,23 @@ function getPastOrders(req, res, next) {
 		});
 }
 
+// All of today's orders for specific restaurant
 function getDailyOrders(req, res, next) {
+	
+	// Query by today and restaurant
 	models.order
 		.findAll({
 			where: {
 				restaurantId:  parseInt(req.params.restaurantId || "0", 10),
 				dateStamp:res.now.dateStamp.toString()
 			},
-			order: "firstName, lastName"
+			order: "firstName, lastName" // Order by user names
 		})
 		.then(function(orders) {
+			
+			// Send orders in response
 			res.send(orders);
-		})
+		});
 }
 
 // Create and / or update the current user's order for today

@@ -1,7 +1,5 @@
 import request from 'superagent'
 
-const expired = () => localStorage.expires_at < Date.now()
-
 module.exports = {
 
   login(token, cb) {
@@ -12,46 +10,42 @@ module.exports = {
     cb = arguments[arguments.length - 1]
 
     // sanity check and escape
-    if (expired() || !id_token) {
-      if (cb) cb(false)
-      this.onChange(false)
+    if (!id_token) {
+      this.logout()
       return
     }
 
-    // are we authenticated?
-    request.get('/api/user')
-      .set('X-Google-Token', id_token)
-      .end((err, res) => {
-        // nope
-        if (err) {
-          if (cb) cb(false)
-          this.logout()
-          return
-        }
+    localStorage.id_token = id_token
+    const user = this.userInfo(id_token)
 
-        if (res.status === 200) {
-          // store the token and expiration for another time
-          localStorage.id_token = id_token
-          localStorage.expires_at = token.expires_at
-
-          // return some good news
-          if (cb) cb(true)
-          this.onChange(true)
-        }
-      })
+    // return some good news
+    if (cb) cb(true, user)
+    this.onChange(true, user)
   },
 
   logout(cb) {
     delete localStorage.id_token
-    delete localStorage.expires_at
-    if (cb) cb()
+    if (cb) cb(false)
     this.onChange(false)
   },
 
-  clientId: () => request.get('/api/appinfo')
-    .end((err, res) => res.body.googleClientId),
+  clientId() {
+    return request.get('/api/appinfo')
+      .end((err, res) => res.body.googleClientId)
+  },
 
-  loggedIn: () => !!localStorage.id_token,
+  loggedIn() { return !!localStorage.id_token },
+
+  userInfo(id_token) {
+    const payload = JSON.parse(
+      new Buffer(id_token.split('.')[1], 'base64').toString()
+    )
+
+    return {
+      name: payload.given_name,
+      picture: payload.picture
+    }
+  },
 
   onChange() {}
 }

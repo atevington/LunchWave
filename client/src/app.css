@@ -1,0 +1,13 @@
+body {
+  min-height: 2000px;
+  padding-top: 70px;
+}
+
+.navbar-profile {
+  margin: 10px;
+}
+
+.navbar-profile img {
+  border-radius: 50%;
+  margin-right: 10px;
+}

@@ -17,6 +17,7 @@ class Login extends Component {
   componentWillMount() {
     // grab the clientId from the appinfo for the login button
     auth.clientId().end((err, res) => {
+      if (err) return
       if (res.status === 200)
         this.setState({ clientId: res.body.googleClientId })
     })
@@ -24,16 +25,10 @@ class Login extends Component {
 
   handleSubmit(event) {
     if (event.tokenObj)
-      auth.login(event.tokenObj, (loggedIn) => {
-        if (!loggedIn)
-          return this.setState({ error: true })
+      auth.login(event.tokenObj, loggedIn => {
+        if (!loggedIn) return this.setState({ error: true })
 
-        const { location } = this.props
-
-        if (location.state && location.state.nextPathname)
-          this.props.router.replace(location.state.nextPathname)
-        else
-          this.props.router.replace('/')
+        this.props.router.replace('/orderform')
       })
   }
 
@@ -46,23 +41,18 @@ class Login extends Component {
 
     if (!this.state.clientId)
       return (
-        <div className="alert alert-warning">Awaiting connection...</div>
+        <div></div>
       )
     else
       return (
-        <div>
-          <GoogleLogin clientId={this.state.clientId}
-            className="btn btn-danger"
-            buttonText="Login"
-            onSuccess={this.handleSubmit.bind(this)}
-            onFailure={this.handleSubmit.bind(this)}>
-            <Icon name='google' />
-            <span style={spanStyles}>Login</span>
-          </GoogleLogin>
-          {this.state.error && (
-            <div className="alert alert-danger">Bad login information</div>
-          )}
-        </div>
+        <GoogleLogin clientId={this.state.clientId}
+          className="btn btn-default"
+          buttonText="Login"
+          onSuccess={this.handleSubmit.bind(this)}
+          onFailure={this.handleSubmit.bind(this)}>
+          <Icon name='google' style={{ color: '#4285f4' }}/>
+          <span style={spanStyles}>Login</span>
+        </GoogleLogin>
       )
   }
 }

@@ -24,18 +24,16 @@ export default class Dashboard extends Component {
               <div className="col-md-6">
 
                 <div className="form-group">
-                  <label className=""
-                    htmlFor="Entrée">Entrée</label>
-                  <input id="Entrée"
-                    name="Entrée"
+                  <label htmlFor="entree">Entrée</label>
+                  <input id="entree"
+                    name="entree"
                     type="text"
                     placeholder="garden salad"
                     className="form-control input-md"/>
                 </div>
 
                 <div className="form-group">
-                  <label className=""
-                    htmlFor="soup">Soup</label>
+                  <label htmlFor="soup">Soup</label>
                   <input id="soup"
                     name="soup"
                     type="text"
@@ -44,8 +42,7 @@ export default class Dashboard extends Component {
                 </div>
 
                 <div className="form-group">
-                  <label className=""
-                    htmlFor="extras">Extras</label>
+                  <label htmlFor="extras">Extras</label>
                   <input id="extras"
                     name="extras"
                     type="text"

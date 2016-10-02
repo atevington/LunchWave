@@ -54,8 +54,8 @@ export default class Dashboard extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-1 col-md-offset-5">
-                <button type="button" className="btn btn-primary">Submit</button>
+              <div className="col-md-6">
+                <button type="button" className="btn btn-primary pull-right">Submit</button>
               </div>
             </div>
           </div>

@@ -8,7 +8,7 @@ export default class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-fixed-top navbar-default">
-        <a className="navbar-brand" href="#">LunchWave</a>
+        <span className="navbar-brand">LunchWave</span>
         <div className="pull-right navbar-text navbar-profile">
           {this.props.userName ? (
             <Photo picture={this.props.picture} userName={this.props.userName} />

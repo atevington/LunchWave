@@ -8,7 +8,7 @@ function getClosedDay(req, res, next) {
 	models.closedDay
 		.findOne({
 			where: {
-				id: res.now.dateStamp.toString()
+				id: res.now.dateStamp
 			}
 		})
 		.then(function(closedDay) {
@@ -35,7 +35,7 @@ function closeDay(req, res) {
 	models.closedDay
 		.findOrCreate({
 			where: {
-				id: res.now.dateStamp.toString()
+				id: res.now.dateStamp
 			}
 		})
 		.then(function(closedDays) {
@@ -52,7 +52,7 @@ function openDay(req, res, next) {
 	models.closedDay
 		.findOne({
 			where: {
-				id: res.now.dateStamp.toString()
+				id: res.now.dateStamp
 			}
 		})
 		.then(function(closedDay) {
@@ -63,7 +63,7 @@ function openDay(req, res, next) {
 				models.closedDay
 					.destroy({
 						where: {
-							id: res.now.dateStamp.toString()
+							id: res.now.dateStamp
 						}		
 					}).then(function() {
 						

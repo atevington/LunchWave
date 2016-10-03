@@ -11,7 +11,7 @@ var order = db.store.define(
 		firstName: { field: "firstName", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
 		lastName: { field: "lastName", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
 		email: { field: "email", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" },
-		dateStamp: { field: "dateStamp", type: db.sequelize.STRING(255), primaryKey: false, allowNull: false, defaultValue: "" }
+		dateStamp: { field: "dateStamp", type: db.sequelize.BIGINT, primaryKey: false, allowNull: false, defaultValue: 0 }
 	},
 	{ tableName: "orders" }
 );

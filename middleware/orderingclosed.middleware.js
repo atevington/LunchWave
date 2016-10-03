@@ -14,7 +14,7 @@ function checkOrderingClosed(req, res, next) {
 	common.models.closedDay
 		.findOne({
 			where: {
-				id: res.now.dateStamp.toString()
+				id: res.now.dateStamp
 			}
 		})
 		.then(function(closedDay) {

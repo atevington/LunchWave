@@ -83,14 +83,6 @@ app.get(
 	controllers.getPastOrders
 );
 
-//Get all restaurant orders for today
-app.get("/api/restaurants/:restaurantId/orders",
-	checkSetAuth,
-	middleware.setRestaurants,
-	middleware.checkRestaurantActive,
-	controllers.getDailyOrders
-);
-
 // Insert guest order for today
 app.post(
 	"/api/guest/order",
@@ -136,6 +128,15 @@ app.get(
 	controllers.getRestaurants
 );
 
+// Get all restaurant orders for today
+app.get("/api/restaurants/:restaurantId/orders",
+	checkSetAuth,
+	middleware.setRestaurants,
+	middleware.checkRestaurantActive,
+	controllers.getDailyOrders
+);
+
+// All menu images for given restaurant
 app.get(
 	"/api/restaurants/:restaurantId/images",
 	checkSetAuth,

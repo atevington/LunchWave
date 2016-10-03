@@ -9,7 +9,7 @@ function getOrder(req, res, next) {
 		.findOne({
 			where: {
 				userId: res.userInfo.id,
-				dateStamp: res.now.dateStamp.toString()
+				dateStamp: res.now.dateStamp
 			}		
 		})
 		.then(function(order) {
@@ -36,7 +36,7 @@ function getPastOrders(req, res, next) {
 			where: {
 				userId: res.userInfo.id,
 				restaurantId: parseInt(req.params.restaurantId || "0", 10),
-				dateStamp: { $ne: res.now.dateStamp.toString() }
+				dateStamp: { $ne: res.now.dateStamp }
 			},
 			limit: parseInt(req.query.limit || "5", 10),
 			order: "dateStamp DESC" // most recent orders
@@ -48,18 +48,23 @@ function getPastOrders(req, res, next) {
 		});
 }
 
+// All of today's orders for specific restaurant
 function getDailyOrders(req, res, next) {
+	
+	// Query by today and restaurant
 	models.order
 		.findAll({
 			where: {
 				restaurantId:  parseInt(req.params.restaurantId || "0", 10),
-				dateStamp:res.now.dateStamp.toString()
+				dateStamp: res.now.dateStamp
 			},
-			order: "firstName, lastName"
+			order: "firstName, lastName" // Order by user names
 		})
 		.then(function(orders) {
+			
+			// Send orders in response
 			res.send(orders);
-		})
+		});
 }
 
 // Create and / or update the current user's order for today
@@ -73,7 +78,7 @@ function createUpdateOrder(req, res, next) {
 			},
 			where: {
 				userId: res.userInfo.id,
-				dateStamp: res.now.dateStamp.toString()
+				dateStamp: res.now.dateStamp
 			}
 		})
 		.then(function() {
@@ -92,7 +97,7 @@ function createUpdateOrder(req, res, next) {
 					{
 						where: {
 							userId: res.userInfo.id,
-							dateStamp: res.now.dateStamp.toString()
+							dateStamp: res.now.dateStamp
 						}
 					}
 				).then(function() {
@@ -102,7 +107,7 @@ function createUpdateOrder(req, res, next) {
 						.findOne({
 							where: {
 								userId: res.userInfo.id,
-								dateStamp: res.now.dateStamp.toString()
+								dateStamp: res.now.dateStamp
 							}		
 						}).then(function(order) {
 							
@@ -121,7 +126,7 @@ function createGuestOrder(req, res, next) {
 		.create(
 			{
 				userId: null,
-				dateStamp: res.now.dateStamp.toString(),
+				dateStamp: res.now.dateStamp,
 				restaurantId: parseInt(req.body.restaurantId || "0", 10),
 				item: (req.body.item || "").trim(),
 				notes: (req.body.notes || "").trim(),
@@ -144,7 +149,7 @@ function deleteOrder(req, res, next) {
 		.findOne({
 			where: {
 				userId: res.userInfo.id,
-				dateStamp: res.now.dateStamp.toString()
+				dateStamp: res.now.dateStamp
 			}		
 		}).then(function(order) {
 			
@@ -155,7 +160,7 @@ function deleteOrder(req, res, next) {
 					.destroy({
 						where: {
 							userId: res.userInfo.id,
-							dateStamp: res.now.dateStamp.toString()
+							dateStamp: res.now.dateStamp
 						}		
 					}).then(function() {
 						

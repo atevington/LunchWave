@@ -16,10 +16,9 @@ class Login extends Component {
 
   componentWillMount() {
     // grab the clientId from the appinfo for the login button
-    auth.clientId().end((err, res) => {
-      if (err) return
+    auth.clientId().then((res) => {
       if (res.status === 200)
-        this.setState({ clientId: res.body.googleClientId })
+        this.setState({ clientId: res.data.googleClientId })
     })
   }
 

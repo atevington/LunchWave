@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-//import { Link } from 'react-router'
 import 'bootstrap/dist/css/bootstrap.css'
-//import 'bootstrap/dist/css/bootstrap-theme.css'
 
 import Navbar from './Navbar'
 import '../app.css'

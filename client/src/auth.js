@@ -1,11 +1,12 @@
-import request from 'superagent'
+import { getToken, setToken } from './token'
+import request from './util'
 
 module.exports = {
 
   login(token, cb) {
     var id_token = token
       ? token.id_token
-      : null || localStorage.id_token
+      : null || getToken()
 
     cb = arguments[arguments.length - 1]
 
@@ -15,7 +16,7 @@ module.exports = {
       return
     }
 
-    localStorage.id_token = id_token
+    setToken(id_token)
     const user = this.userInfo(id_token)
 
     // return some good news
@@ -30,11 +31,10 @@ module.exports = {
   },
 
   clientId() {
-    return request.get('/api/appinfo')
-      .end((err, res) => res.body.googleClientId)
+    return request.get('appinfo')
   },
 
-  loggedIn() { return !!localStorage.id_token },
+  loggedIn() { return !!getToken() },
 
   userInfo(id_token) {
     const payload = JSON.parse(

@@ -21,8 +21,7 @@
     "react-fa": "^4.1.2",
     "react-google-login": "^2.5.2",
     "react-router": "^2.8.1",
-    "react-scripts": "^0.6.0",
-    "superagent": "^2.3.0"
+    "react-scripts": "^0.6.0"
   },
   "proxy": "http://localhost:3001"
 }

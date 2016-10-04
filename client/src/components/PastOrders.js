@@ -12,16 +12,12 @@ export default class PastOrders extends Component {
 
     this.state = {
       orders: [],
-      restaurants: [],
-      // TODO: add a restaurant selection so this isn't hardcoded
-      restaurantId: 1
+      restaurants: []
     }
   }
 
   componentWillMount() {
-    const id = this.state.restaurantId
-
-    axios.all([getPastOrders(id), getRestaurants()])
+    axios.all([getPastOrders(this.props.restaurantId), getRestaurants()])
       .then(axios.spread((orders, restaurants) => {
         this.setState({
           orders: orders.data,
@@ -34,7 +30,7 @@ export default class PastOrders extends Component {
     var s = this.state
 
     if (s.restaurants.length)
-      var name = _.find(s.restaurants, r => r.id = s.restaurantId).name
+      var name = _.find(s.restaurants, r => r.id = this.props.restaurantId).name
 
     return (
       <div>

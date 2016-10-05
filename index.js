@@ -25,6 +25,18 @@ var self = this;
 // Function for checking / setting auth
 var checkSetAuth = middleware.checkSetAuth.bind(self, googleAuthEndpoint, googleClientId);
 
+// Function for finding and setting open restaurants
+var setOpenRestaurants = middleware.setRestaurants.bind(self, true);
+
+// Function for finding and setting all (active) restaurants
+var setAllRestaurants = middleware.setRestaurants.bind(self, false);
+
+// See if restaurant in request exists - 403 if not found
+var checkRestaurantActive = middleware.checkRestaurant.bind(self, false);
+
+// See if restaurant in request exists - 404 if not found
+var checkRestaurantExists = middleware.checkRestaurant.bind(self, true);
+
 // Ran for all API requests
 app.use(
 	"/api/*",
@@ -61,8 +73,8 @@ app.post(
 	"/api/user/order",
 	checkSetAuth,
 	middleware.checkOrderingClosed,
-	middleware.setRestaurants,
-	middleware.checkRestaurantActive,
+	setOpenRestaurants,
+	checkRestaurantActive,
 	controllers.createUpdateOrder
 );
 
@@ -78,8 +90,8 @@ app.delete(
 app.get(
 	"/api/user/pastorders/:restaurantId",
 	checkSetAuth,
-	middleware.setRestaurants,
-	middleware.checkRestaurantActive,
+	setAllRestaurants,
+	checkRestaurantExists,
 	controllers.getPastOrders
 );
 
@@ -90,8 +102,8 @@ app.post(
 	middleware.setAdmin,
 	middleware.checkAdmin,
 	middleware.checkOrderingClosed,
-	middleware.setRestaurants,
-	middleware.checkRestaurantActive,
+	setOpenRestaurants,
+	checkRestaurantActive,
 	controllers.createGuestOrder
 );
 
@@ -120,19 +132,27 @@ app.delete(
 	controllers.openDay
 );
 
-// All restaurants open for the day
+// All restaurants
 app.get(
 	"/api/restaurants",
 	checkSetAuth,
-	middleware.setRestaurants,
+	setAllRestaurants,
+	controllers.getRestaurants
+);
+
+// All restaurants open for the day
+app.get(
+	"/api/restaurants/open",
+	checkSetAuth,
+	setOpenRestaurants,
 	controllers.getRestaurants
 );
 
 // Get all restaurant orders for today
 app.get("/api/restaurants/:restaurantId/orders",
 	checkSetAuth,
-	middleware.setRestaurants,
-	middleware.checkRestaurantActive,
+	setOpenRestaurants,
+	checkRestaurantActive,
 	controllers.getDailyOrders
 );
 
@@ -140,8 +160,8 @@ app.get("/api/restaurants/:restaurantId/orders",
 app.get(
 	"/api/restaurants/:restaurantId/images",
 	checkSetAuth,
-	middleware.setRestaurants,
-	middleware.checkRestaurantActive,
+	setAllRestaurants,
+	checkRestaurantExists,
 	controllers.getRestaurantImages
 );
 

@@ -1,20 +1,29 @@
 // Common includes
 var common = require("./common.middleware.js");
 
-// All restaurants for current day
-function setRestaurants(req, res, next) {
+// All restaurants or all restaurants for current day
+function setRestaurants(openOnly, req, res, next) {
 
 	// Set up object to query for weekday
 	var query = {};
-	query[res.now.weekDay] = true;
 	query.active = true;
+	
+	// Only querying for active restaurants
+	if (openOnly) {
+		
+		// Set weekday to query on
+		query[res.now.weekDay] = true;
+	}
 
-	// Query active restaurants for current day
+	// Query restaurants
 	common.models.restaurant
-		.findAll({ where: query, order: "name ASC" })
+		.findAll({
+			where: query,
+			order: "sunday DESC, monday DESC, tuesday DESC, wednesday DESC, thursday DESC, friday DESC, saturday DESC, name"
+		})
 		.then(function(restaurants) {
 
-			// Set open restaurants for subsequent requests
+			// Set restaurants for subsequent requests
 			res.restaurants = restaurants;
 			
 			// Continue to next route
@@ -22,8 +31,8 @@ function setRestaurants(req, res, next) {
 		});
 }
 
-// Ensure restaurant is active today for current orders
-function checkRestaurantActive(req, res, next) {
+// Ensure restaurant from request exists
+function checkRestaurant(notFound, req, res, next) {
 	
 	// Invoker
 	var self = this;
@@ -34,7 +43,7 @@ function checkRestaurantActive(req, res, next) {
 	// Restaurant ID from request
 	var restaurantId = parseInt(req.body.restaurantId || req.params.restaurantId || "0", 10)
 	
-	// See if restaurantId passed in is active today
+	// See if restaurantId passed in exists
 	if (res.restaurants.filter(function(val) { return val.id === restaurantId; }).length > 0) {
 		
 		// We're good
@@ -46,8 +55,8 @@ function checkRestaurantActive(req, res, next) {
 		self,
 		[
 			valid,
-			common.statusCodes.forbidden,
-			common.message("Sorry, the restaurant you requested is not open today."),
+			notFound ? common.statusCodes.notFound : common.statusCodes.forbidden,
+			common.message("Sorry, the restaurant you requested was not found or is not open today."),
 			res,
 			next
 		]
@@ -57,5 +66,5 @@ function checkRestaurantActive(req, res, next) {
 // Expose our functions
 module.exports = {
 	setRestaurants: setRestaurants,
-	checkRestaurantActive: checkRestaurantActive
+	checkRestaurant: checkRestaurant
 };

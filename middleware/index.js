@@ -6,7 +6,7 @@ module.exports = {
 	setDateTime: require("./datetime.middleware.js").setDateTime,
 	checkSetAuth: require("./auth.middleware.js").checkSetAuth,
 	setRestaurants: require("./restaurants.middleware.js").setRestaurants,
-	checkRestaurantActive: require("./restaurants.middleware.js").checkRestaurantActive,
+	checkRestaurant: require("./restaurants.middleware.js").checkRestaurant,
 	setAdmin: require("./admin.middleware.js").setAdmin,
 	checkAdmin: require("./admin.middleware.js").checkAdmin,
 	checkOrderingClosed: require("./orderingclosed.middleware.js").checkOrderingClosed,

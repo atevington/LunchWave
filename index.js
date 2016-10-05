@@ -32,7 +32,7 @@ var setOpenRestaurants = middleware.setRestaurants.bind(self, true);
 var setAllRestaurants = middleware.setRestaurants.bind(self, false);
 
 // See if restaurant in request exists - 403 if not found
-var checkRestaurantActive = middleware.checkRestaurant.bind(self, false);
+var checkRestaurantOpen = middleware.checkRestaurant.bind(self, false);
 
 // See if restaurant in request exists - 404 if not found
 var checkRestaurantExists = middleware.checkRestaurant.bind(self, true);
@@ -74,7 +74,7 @@ app.post(
 	checkSetAuth,
 	middleware.checkOrderingClosed,
 	setOpenRestaurants,
-	checkRestaurantActive,
+	checkRestaurantOpen,
 	controllers.createUpdateOrder
 );
 
@@ -103,7 +103,7 @@ app.post(
 	middleware.checkAdmin,
 	middleware.checkOrderingClosed,
 	setOpenRestaurants,
-	checkRestaurantActive,
+	checkRestaurantOpen,
 	controllers.createGuestOrder
 );
 
@@ -152,7 +152,7 @@ app.get(
 app.get("/api/restaurants/:restaurantId/orders",
 	checkSetAuth,
 	setOpenRestaurants,
-	checkRestaurantActive,
+	checkRestaurantOpen,
 	controllers.getDailyOrders
 );
 

@@ -132,7 +132,7 @@ app.delete(
 	controllers.openDay
 );
 
-// All restaurants
+// All (active) restaurants
 app.get(
 	"/api/restaurants",
 	checkSetAuth,
@@ -151,8 +151,8 @@ app.get(
 // Get all restaurant orders for today
 app.get("/api/restaurants/:restaurantId/orders",
 	checkSetAuth,
-	setOpenRestaurants,
-	checkRestaurantOpen,
+	setAllRestaurants,
+	checkRestaurantExists,
 	controllers.getDailyOrders
 );
 

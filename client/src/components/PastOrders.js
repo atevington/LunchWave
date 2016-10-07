@@ -32,10 +32,15 @@ export default class PastOrders extends Component {
     if (s.restaurants.length)
       var name = _.find(s.restaurants, r => r.id = this.props.restaurantId).name
 
+
+
     return (
       <div>
         <h1>{name}</h1>
-        <h3>Last {s.orders.length} order{s.orders.length > 1 ? 's' : null}</h3>
+          {s.orders.length > 0 ? (
+            <h3>Last {s.orders.length} order{s.orders.length > 1 ? 's' : null}</h3>
+            ) : (null
+          )}
         <OrdersList orders={s.orders} />
       </div>
     )

@@ -17,6 +17,8 @@ module.exports = {
     }
 
     setToken(id_token)
+    request.defaults.headers['X-Google-Token'] = getToken()
+
     const user = this.userInfo(id_token)
 
     // return some good news

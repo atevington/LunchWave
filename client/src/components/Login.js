@@ -27,7 +27,7 @@ class Login extends Component {
       auth.login(event.tokenObj, loggedIn => {
         if (!loggedIn) return this.setState({ error: true })
 
-        this.props.router.replace('/orderform')
+        this.props.router.replace('/order')
       })
   }
 

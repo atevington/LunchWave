@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getToken } from './token'
+import { getToken, deleteToken } from './token'
 
 /*
  * setup an instance of axios with defaults
@@ -11,4 +11,14 @@ const request = axios.create({
   headers: { 'X-Google-Token': getToken() }
 })
 
-export default request
+const handleErr = (err) => {
+  if (err.response && err.response.status === 401) {
+    deleteToken()
+    window.location.href = '/'
+  }
+}
+
+export {
+  request,
+  handleErr
+}

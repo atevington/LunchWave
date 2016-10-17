@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { browserHistory, Redirect, Route, Router } from 'react-router'
 
 import App from './components/App'
-import OrderForm from './components/OrderForm'
+import Order from './components/Order'
 import Dashboard from './components/Dashboard'
 
 import auth from './auth'
@@ -20,7 +20,7 @@ const requireAuth = (nextState, replace) => {
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <Route path="orderform" component={OrderForm} onEnter={requireAuth} />
+      <Route path="order/:restaurantId" component={Order} onEnter={requireAuth} />
       <Route path="dashboard" component={Dashboard} onEnter={requireAuth} />
     </Route>
     <Redirect from="*" to="/" />

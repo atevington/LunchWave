@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-//import { Link } from 'react-router'
 
 import Photo from './Photo'
 import Login from './Login'
@@ -19,4 +18,9 @@ export default class Navbar extends Component {
       </nav>
     )
   }
+}
+
+Navbar.propTypes = {
+  userName: React.PropTypes.string,
+  picture: React.PropTypes.string
 }

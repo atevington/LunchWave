@@ -11,4 +11,9 @@ const Photo = ({ picture, userName }) => {
   )
 }
 
+Photo.propTypes = {
+  userName: React.PropTypes.string.isRequired,
+  picture: React.PropTypes.string.isRequired
+}
+
 export default Photo

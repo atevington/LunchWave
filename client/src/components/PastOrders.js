@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import _ from 'lodash'
 
 import OrdersList from './OrdersList'
 import { getPastOrders } from '../order'
@@ -27,20 +26,15 @@ export default class PastOrders extends Component {
   }
 
   render() {
-    var s = this.state
-
-    if (s.restaurants.length)
-      var name = _.find(s.restaurants, r => r.id = this.props.restaurantId).name
-
-
+    const s = this.state
+    const name = s.restaurants.length
+      ? s.restaurants.find(r => r.id === this.props.restaurantId).name
+      : ''
 
     return (
       <div>
         <h1>{name}</h1>
-          {s.orders.length > 0 ? (
-            <h3>Last {s.orders.length} order{s.orders.length > 1 ? 's' : null}</h3>
-            ) : (null
-          )}
+        {s.orders.length > 0 ? <h3>Previous Orders</h3> : null }
         <OrdersList orders={s.orders} />
       </div>
     )

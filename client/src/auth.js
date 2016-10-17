@@ -1,5 +1,5 @@
 import { getToken, setToken } from './token'
-import request from './util'
+import { request } from './util'
 
 module.exports = {
 

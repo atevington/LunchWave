@@ -96,7 +96,7 @@ function createUpdateOrder(req, res, next) {
 						userId: res.userInfo.id,
 						dateStamp: res.now.dateStamp
 					}
-				}
+				})
 				.then(function() {
 					// Query order again
 					models.order

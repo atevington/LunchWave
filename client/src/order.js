@@ -18,14 +18,14 @@ const getOrder = () => request.get(`user/order`).catch(handleErr)
  * @param {object} order - { restaurantId, item, notes }
  * @return {object} completed order information
  */
-const postOrder = order => request.post('user/order').catch(handleErr)
+const postOrder = order => request.post('user/order', order).catch(handleErr)
 
 /**
  * add guest order
  * @param {object} order - { restaurantId, item, notes, first, last, email }
  * @return {object} completed order information
  */
-const postGuestOrder = order => request.post('guest/order').catch(handleErr)
+const postGuestOrder = order => request.post('guest/order', order).catch(handleErr)
 
 /**
  * gets all orders for today

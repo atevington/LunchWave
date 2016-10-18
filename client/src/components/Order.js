@@ -2,6 +2,11 @@ import React from 'react'
 
 import PastOrders from './PastOrders'
 import OrderForm from './OrderForm'
+import { postOrder } from '../order'
+
+const SaveOrder = (order) => {
+  postOrder(order)
+}
 
 const Order = ({ params }) => {
   const id = +params.restaurantId
@@ -10,7 +15,7 @@ const Order = ({ params }) => {
     <div>
       <PastOrders restaurantId={id}/>
       <OrderForm restaurantId={id}
-        submitEvent={console.log.bind(console)}/>
+        submitEvent={SaveOrder}/>
     </div>
   )
 }

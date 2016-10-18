@@ -25,9 +25,12 @@ class Login extends Component {
   handleSubmit(event) {
     if (event.tokenObj)
       auth.login(event.tokenObj, loggedIn => {
-        if (!loggedIn) return this.setState({ error: true })
-
-        this.props.router.replace('/order')
+        if (!loggedIn) {
+          return this.setState({ error: true })
+        }
+        else {
+          this.props.router.push('/')
+        }
       })
   }
 

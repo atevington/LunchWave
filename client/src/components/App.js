@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 
 import Navbar from './Navbar'
+import Restaurants from './Restaurants'
 import '../app.css'
 
 import auth from '../auth'
@@ -36,6 +37,7 @@ export default class App extends Component {
         <div className="container">
           {this.state.loggedIn ? (
             <div>
+              <Restaurants/>
               {this.props.children}
             </div>
           ) : (

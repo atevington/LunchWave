@@ -6,7 +6,11 @@ const RestaurantsList = ({ restaurants }) => {
     <ul className="list-group">
       {restaurants.map((restaurant, index) => (
         <li className="list-group-item" key={index}>
-          <Link to={`/order/${restaurant.id}`}>{restaurant.name}</Link>
+          <Link to={`/order/${restaurant.id}`}
+            activeClassName="active"
+            onlyActiveOnIndex={true}>
+            {restaurant.name}
+          </Link>
         </li>
       ))}
     </ul>

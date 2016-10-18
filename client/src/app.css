@@ -1,6 +1,5 @@
 body {
-  min-height: 2000px;
-  padding-top: 70px;
+  padding: 70px 0;
 }
 
 .navbar-profile {
@@ -13,4 +12,6 @@ body {
   border: 2px solid #444;
 }
 
-
+.active {
+  font-weight: 800;
+}

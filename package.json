@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently -r \"npm run server\" \"cd client && npm run start\"",
-    "server": "cross-env PORT=3001 node index.js"
+    "server": "cross-env PORT=3001 node index.js",
+	"dbadmin": "node ./utility/dbadmin.js",
+	"create-test-data": "node ./utility/recreatetestdata.js"
   },
   "author": "",
   "license": "ISC",

@@ -9,7 +9,9 @@ const Order = ({ params, router }) => {
   const id = +params.restaurantId
   const SaveOrder = order => {
     postOrder(order)
-    router.push('/')
+      .then(res => {
+        if (res.status === 200) router.push('/')
+      })
   }
 
   return (

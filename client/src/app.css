@@ -9,9 +9,21 @@ body {
 .navbar-profile img {
   border-radius: 50%;
   margin-right: 10px;
-  border: 2px solid #444;
+  border: 1px solid #444;
+  padding: 2px;
+  box-sizing: content-box;
 }
 
 .active {
   font-weight: 800;
+}
+
+.btn-google .fa {
+  color: #4285f4;
+}
+
+.btn-google > .login-text {
+  display: inline-block;
+  text-align: right;
+  width: 3em;
 }

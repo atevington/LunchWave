@@ -15,7 +15,6 @@ class Login extends Component {
   }
 
   componentWillMount() {
-    // grab the clientId from the appinfo for the login button
     auth.clientId().then((res) => {
       if (res.status === 200)
         this.setState({ clientId: res.data.googleClientId })
@@ -29,33 +28,23 @@ class Login extends Component {
           return this.setState({ error: true })
         }
         else {
-          this.props.router.push('/')
+          this.props.router.replace('/')
         }
       })
   }
 
   render() {
-    var spanStyles = {
-      display: 'inline-block',
-      textAlign: 'right',
-      width: '3em'
-    }
-
-    if (!this.state.clientId)
-      return (
-        <div></div>
-      )
-    else
-      return (
-        <GoogleLogin clientId={this.state.clientId}
-          className="btn btn-default"
-          buttonText="Login"
-          onSuccess={this.handleSubmit.bind(this)}
-          onFailure={this.handleSubmit.bind(this)}>
-          <Icon name='google' style={{ color: '#4285f4' }}/>
-          <span style={spanStyles}>Login</span>
-        </GoogleLogin>
-      )
+    if (!this.state.clientId) return null
+    else return (
+      <GoogleLogin clientId={this.state.clientId}
+        className="btn btn-default btn-google"
+        buttonText="Login"
+        onSuccess={this.handleSubmit.bind(this)}
+        onFailure={this.handleSubmit.bind(this)}>
+        <Icon name='google'/>
+        <span className="login-text">Login</span>
+      </GoogleLogin>
+    )
   }
 }
 

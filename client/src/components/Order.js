@@ -3,21 +3,22 @@ import React from 'react'
 import PastOrders from './PastOrders'
 import OrderForm from './OrderForm'
 import { postOrder } from '../order'
+import { withRouter } from 'react-router'
 
-const SaveOrder = (order) => {
-  postOrder(order)
-}
-
-const Order = ({ params }) => {
+const Order = ({ params, router }) => {
   const id = +params.restaurantId
+  const SaveOrder = order => {
+    postOrder(order)
+    router.push('/')
+  }
 
   return (
     <div>
       <PastOrders restaurantId={id}/>
       <OrderForm restaurantId={id}
-        submitEvent={SaveOrder}/>
+        submitEvent={SaveOrder.bind(this)}/>
     </div>
   )
 }
 
-export default Order
+export default withRouter(Order)

@@ -4,7 +4,6 @@ import { browserHistory, Redirect, Route, Router } from 'react-router'
 
 import App from './components/App'
 import Order from './components/Order'
-import Restaurants from './components/Restaurants'
 import Dashboard from './components/Dashboard'
 
 import auth from './auth'

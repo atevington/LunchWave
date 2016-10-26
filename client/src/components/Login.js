@@ -9,9 +9,10 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      error: false,
       clientId: null
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillMount() {
@@ -24,10 +25,7 @@ class Login extends Component {
   handleSubmit(event) {
     if (event.tokenObj)
       auth.login(event.tokenObj, loggedIn => {
-        if (!loggedIn) {
-          return this.setState({ error: true })
-        }
-        else {
+        if (loggedIn) {
           this.props.router.replace('/')
         }
       })
@@ -39,8 +37,8 @@ class Login extends Component {
       <GoogleLogin clientId={this.state.clientId}
         className="btn btn-default btn-google"
         buttonText="Login"
-        onSuccess={this.handleSubmit.bind(this)}
-        onFailure={this.handleSubmit.bind(this)}>
+        onSuccess={this.handleSubmit}
+        onFailure={this.handleSubmit}>
         <Icon name='google'/>
         <span className="login-text">Login</span>
       </GoogleLogin>

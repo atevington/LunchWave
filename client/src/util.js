@@ -1,5 +1,9 @@
 import axios from 'axios'
+import CancelToken from 'axios/lib/cancel/CancelToken'
 import { getToken, deleteToken } from './token'
+
+// for canceling promises
+const source = CancelToken.source()
 
 /*
  * setup an instance of axios with defaults
@@ -8,7 +12,11 @@ import { getToken, deleteToken } from './token'
  */
 const request = axios.create({
   baseURL: '/api/',
-  headers: { 'X-Google-Token': getToken() }
+  headers: { 'X-Google-Token': getToken() },
+  cancelToken: source.token,
+  validateStatus: status => {
+    return status >= 200 && status <= 404
+  }
 })
 
 const handleErr = (err) => {
@@ -20,5 +28,7 @@ const handleErr = (err) => {
 
 export {
   request,
-  handleErr
+  handleErr,
+  source
 }
+

@@ -1,7 +1,6 @@
 # generated files & folders
 data/*.sqlite
 public/
-client/build/
 
 # npm related
 node_modules

@@ -1,26 +1,24 @@
-import React, { Component } from 'react'
+import React, { PropTypes } from 'react'
 
 import Photo from './Photo'
 import Login from './Login'
 
-export default class Navbar extends Component {
-  render() {
-    return (
-      <nav className="navbar navbar-fixed-top navbar-default">
-        <span className="navbar-brand">LunchWave</span>
-        <div className="pull-right navbar-text navbar-profile">
-          {this.props.userName ? (
-            <Photo picture={this.props.picture} userName={this.props.userName} />
-          ) : (
-            <Login />
-          )}
-        </div>
-      </nav>
-    )
-  }
-}
+const Navbar = ({ picture, userName }) => (
+  <nav className="navbar navbar-fixed-top navbar-default">
+    <span className="navbar-brand">LunchWave</span>
+    <div className="pull-right navbar-text navbar-profile">
+      {userName ? (
+        <Photo picture={picture} userName={userName} />
+      ) : (
+        <Login />
+      )}
+    </div>
+  </nav>
+)
 
 Navbar.propTypes = {
-  userName: React.PropTypes.string,
-  picture: React.PropTypes.string
+  userName: PropTypes.string,
+  picture: PropTypes.string
 }
+
+export default Navbar

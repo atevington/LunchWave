@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 import auth from '../auth.js'
 
@@ -12,8 +12,8 @@ const Photo = ({ picture, userName }) => {
 }
 
 Photo.propTypes = {
-  userName: React.PropTypes.string.isRequired,
-  picture: React.PropTypes.string.isRequired
+  userName: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired
 }
 
 export default Photo

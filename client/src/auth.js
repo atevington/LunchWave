@@ -4,14 +4,22 @@ import { request } from './util'
 module.exports = {
 
   login(token, cb) {
-    var id_token = token
+    const id_token = token
       ? token.id_token
-      : null || getToken()
+      : getToken() || null
 
     cb = arguments[arguments.length - 1]
 
     // sanity check and escape
     if (!id_token) {
+      this.logout()
+      return
+    }
+
+    const expiration = this.userInfo(id_token).expiration * 1000
+
+    // did the token expire?
+    if (expiration < new Date().getTime()) {
       this.logout()
       return
     }
@@ -45,7 +53,8 @@ module.exports = {
 
     return {
       name: payload.given_name,
-      picture: payload.picture
+      picture: payload.picture,
+      expiration: payload.exp
     }
   },
 

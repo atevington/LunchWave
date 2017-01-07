@@ -1,32 +1,24 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router'
 import GoogleLogin from 'react-google-login'
 import { Icon } from 'react-fa'
 
 import auth from '../auth'
 
 class Login extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      clientId: null
-    }
-
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
+  state = { clientId: null }
 
   componentWillMount() {
-    auth.clientId().then((res) => {
-      if (res.status === 200)
-        this.setState({ clientId: res.data.googleClientId })
+    auth.clientId().then(({ status, data: { googleClientId } }) => {
+      if (status === 200)
+        this.setState({ clientId: googleClientId })
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     if (event.tokenObj)
       auth.login(event.tokenObj, loggedIn => {
         if (loggedIn) {
-          this.props.router.replace('/')
+          window.location.href = '/'
         }
       })
   }
@@ -46,4 +38,4 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login)
+export default Login

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 const Success = ({ item, notes }) => {
   return (
@@ -13,6 +13,11 @@ const Success = ({ item, notes }) => {
       </div>
     </div>
   )
+}
+
+Success.propTypes = {
+  item: PropTypes.string.isRequired,
+  notes: PropTypes.string.isRequired
 }
 
 export default Success

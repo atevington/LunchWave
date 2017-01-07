@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 
 import { getRestaurants } from '../restaurant'
 import RestaurantsList from '../components/RestaurantsList'
@@ -21,6 +21,16 @@ export default class Restaurants extends Component {
   }
 
   render() {
-    return <RestaurantsList restaurants={this.state.restaurants}/>
+    return (
+      <RestaurantsList
+        selectedId={this.props.selectedId}
+        restaurants={this.state.restaurants}
+        callback={this.props.onRestaurantSelect} />
+    )
   }
+}
+
+Restaurants.propTypes = {
+  onRestaurantSelect: PropTypes.func.isRequired,
+  selectedId: PropTypes.number
 }

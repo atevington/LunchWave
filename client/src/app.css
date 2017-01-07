@@ -18,6 +18,10 @@ body {
   font-weight: 800;
 }
 
+.list-group-item > a {
+  cursor: pointer;
+}
+
 .btn-google .fa {
   color: #4285f4;
 }

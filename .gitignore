@@ -1,7 +1,14 @@
-node_modules/
+# generated files & folders
 data/*.sqlite
-.DS_Store
 public/
-npm-debug.log
-.idea
 client/build/
+
+# npm related
+node_modules
+npm-debug.log
+yarn-error.log
+
+# OS and editors related
+.DS_Store
+.vimsession
+.idea/

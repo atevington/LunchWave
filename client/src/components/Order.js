@@ -1,28 +1,32 @@
-import React from 'react'
-import { withRouter } from 'react-router'
+import React, { PropTypes } from 'react'
 
 import PastOrders from './PastOrders'
 import OrderForm from './OrderForm'
+
 import { postOrder } from '../order'
 
-const Order = ({ params, router }) => {
-  const id = +params.restaurantId
-  const SaveOrder = order => {
-    postOrder(order)
-      .then(res => {
-        //if (res.status === 200) router.push('/')
-        // TODO: remove this hack - use a callback or something to update App state
-        if (res.status === 200) window.location.href = '/'
-      })
+const Order = ({ restaurantId, onSuccess }) => {
+  const saveOrder = order => {
+    postOrder(order).then(res => {
+      if (res.status === 200) {
+        onSuccess(order)
+      }
+    })
   }
 
   return (
     <div>
-      <PastOrders restaurantId={id}/>
-      <OrderForm restaurantId={id}
-        submitEvent={SaveOrder.bind(this)}/>
+      <PastOrders restaurantId={restaurantId} />
+      <OrderForm
+        restaurantId={restaurantId}
+        submitEvent={saveOrder} />
     </div>
   )
 }
 
-export default withRouter(Order)
+Order.propTypes = {
+  restaurantId: PropTypes.number,
+  onSuccess: PropTypes.func
+}
+
+export default Order

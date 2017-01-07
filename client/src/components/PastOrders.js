@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import axios from 'axios'
+import classNames from 'classnames'
 
 import OrdersList from './OrdersList'
 import { getPastOrders } from '../order'
@@ -11,11 +12,20 @@ export default class PastOrders extends Component {
 
     this.state = {
       orders: [],
-      restaurants: []
+      restaurants: [],
+      hidden: true
     }
   }
 
   componentWillMount() {
+    this.getRestaurantDetails()
+  }
+
+  componentWillReceiveProps() {
+    this.getRestaurantDetails()
+  }
+
+  getRestaurantDetails = () => {
     axios.all([getPastOrders(this.props.restaurantId), getRestaurants()])
       .then(axios.spread((orders, restaurants) => {
         this.setState({
@@ -25,22 +35,42 @@ export default class PastOrders extends Component {
       }))
   }
 
+  toggleShow = () => {
+    this.setState({ hidden: !this.state.hidden })
+  }
+
   render() {
-    const s = this.state
-    const name = s.restaurants.length
-      ? s.restaurants.find(r => r.id === this.props.restaurantId).name
+    const ordersClass = classNames({ hidden: this.state.hidden })
+    const toggleClass = classNames({ hidden: !this.state.orders.length })
+    const { restaurants, orders } = this.state
+    const { restaurantId } = this.props
+
+    const name = restaurants.length
+      ? restaurants.find(r => r.id === restaurantId).name
       : ''
 
     return (
-      <div>
-        <h1>{name}</h1>
-        {s.orders.length > 0 ? <h3>Previous Orders</h3> : null }
-        <OrdersList orders={s.orders} />
-      </div>
+      <section>
+        <div className="row">
+          <div className="col-md-6">
+            <h1>{name}</h1>
+            <span className={toggleClass}
+              onClick={this.toggleShow}>
+              {this.state.hidden ? 'Show' : 'Hide'} Orders
+            </span>
+          </div>
+        </div>
+        <div className={Object.assign(ordersClass, { row: true })}>
+          <div className="col-md-6">
+            {orders.length > 0 ? <h3>Previous Orders</h3> : null}
+            <OrdersList orders={orders} />
+          </div>
+        </div>
+      </section>
     )
   }
 }
 
 PastOrders.propTypes = {
-  restaurantId: React.PropTypes.number.isRequired
+  restaurantId: PropTypes.number.isRequired
 }

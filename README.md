@@ -13,28 +13,12 @@ cd LunchWave
 
 # install the dependencies with npm
 npm install
-cd client
-npm install
 
 # add some test restaurants (optional)
 npm run create-test-data
 
 # start just the Express server on port 3001
 npm run server
-
-# alternatively start both the API and Webpack servers
-# note: all calls to /api/* will be proxied to 3001
-npm run start
-```
-
-### Build the Client Application
-
-```sh
-cd client
-
-# builds to client/public
-# for now, you can copy its contents manually to the top level public directory
-npm run build
 ```
 
 ### Common tasks
